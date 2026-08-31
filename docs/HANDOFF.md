@@ -53,6 +53,52 @@ Immediate next step:
 
 ## Latest handoff records
 
+### 2026-08-31 23:00 UTC — P-2 proposal intake — handoff
+
+Agent:        Arena Agent (session-scoped; identity irrelevant to the contract)
+Branch:       `arena/01a05905-canyou`
+Base commit:  `0cac6cf` (end of the P-1 intake)
+Head commit:  `2f8f682` (P-2 intake) + the commit carrying this record
+
+Done (state + evidence):
+  - Strategic positioning package preserved — COMMITTED — `2f8f682`:
+    `docs/PROPOSALS.md` §P-2 records the owner-channel message verbatim
+    (thesis, non-goals, differentiation areas, distributed-intelligence
+    principle + capability formula, candidate identity statement, v0–v3
+    roadmap, “Competitive Architecture” next-step note)
+  - No unsigned promotion — VERIFIED — signed files untouched: `docs/PRODUCT.md`
+    unchanged; P-2 marked PROPOSED/UNSIGNED; its `v0` flagged as a **third**
+    Phase-1 scope formulation, so Q-6 now lists exactly three candidates
+    (signed / P-1 §4 / P-2 §6) — only an owner-recorded amendment can change
+    the current scope
+  - Verification passing — VERIFIED — `bash scripts/verify/verify.sh` →
+    `RESULT: PASS — 3 check group(s)`, exit 0 (before each commit)
+
+Not done / remaining (owner decisions; nothing else can proceed):
+  - Q-5: sign P-1 constraints (optionally + P-2 identity refinement/thesis)?
+  - Q-6: pick ONE of the three Phase-1 scope formulations (recorded amendment
+    in `docs/PRODUCT.md` required for any change)
+  - Carried: Q-4 (requirements drafting mode), Q-2 (stack), T-008 (CI
+    activation), merge of PR #1
+
+Decisions made this session:
+  - P-2 classified as proposal-voice («حكمي النهائي»، «أرى») → unsigned intake
+  - The proposed “Canyou Competitive Architecture” document is pipeline-gated:
+    it may be derived only from signed constraints/requirements (AGENTS.md §2),
+    noted inside §P-2 §7
+  - Incident disclosure: while inserting §P-2, an edit accidentally replaced
+    P-1 §5 (“Proposed framing”); it was restored immediately and verified
+    intact (grep + section listing) before committing — no material was lost
+
+Risks / open questions:
+  - Three competing Phase-1 scope formulations now exist — the risk flagged in
+    handoff 5 has materialized; only the owner’s Q-6 decision resolves it
+  - Q-2/Q-4 dependencies unchanged: no requirements, no stack, no code
+
+Immediate next step:
+  - Owner: answer Q-5 + Q-6 (+ carried Q-4/Q-2). Until then: hold — no
+    promotion, no requirements drafting, no implementation.
+
 ### 2026-08-31 22:20 UTC — P-1 proposal intake — handoff
 
 Agent:        Arena Agent (session-scoped; identity irrelevant to the contract)

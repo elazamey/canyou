@@ -28,7 +28,7 @@
 | **Derivation rules + pipeline enshrined** | COMMITTED | `AGENTS.md` §2 + §7, `README.md` status @ `cbd1887`; source: owner, 2026-08-31 |
 | **Requirements (thin slice)** | NOT STARTED | Pipeline position: immediately after Product Definition; owner/architect step — or a delegated draft awaiting owner signature (Q-4) |
 | **Constraints package P-1** | COMMITTED | `docs/PROPOSALS.md` §P-1 @ `c9ad259` — UNSIGNED proposal (9 rules, six areas, five pillars, Phase-1 expansion); governs nothing until owner signs (Q-5/Q-6) |
-| **Strategic positioning package P-2** | DOCUMENTED | `docs/PROPOSALS.md` §P-2 — UNSIGNED proposal (competitive thesis, non-goals, distributed intelligence, candidate identity statement, v0–v3 roadmap); governs nothing until owner signs |
+| **Strategic positioning package P-2** | COMMITTED | `docs/PROPOSALS.md` §P-2 @ `2f8f682` — UNSIGNED proposal (competitive thesis, non-goals, distributed intelligence, candidate identity statement, v0–v3 roadmap); governs nothing until owner signs |
 | **Architecture (thin slice)** | NOT STARTED | Blocked by Requirements (`T-010`) |
 | **Stack decision** | NOT STARTED | Owner decision (`T-002`), scoped to the thin slice |
 | **Thin-slice implementation** | BLOCKED | Requires Requirements + Architecture + Stack; no application code may exist before that |
@@ -48,6 +48,7 @@
 - **Constraints package P-1 recorded as UNSIGNED proposal (2026-08-31):** the platform-constraints message (9-rule set, six constraint areas, five pillars, expanded Phase-1 nomination) is preserved verbatim in `docs/PROPOSALS.md` §P-1 with source and date. Nothing in it governs work yet — promoter to requirement requires owner signature (Q-5/Q-6). The signed Phase-1 scope in `docs/PRODUCT.md` is unchanged.
 - **P-1 intake verified (2026-08-31, on `c9ad259` tree):** `bash scripts/verify/verify.sh` → `RESULT: PASS — 3 check group(s)`, exit 0 — including `docs/PROPOSALS.md` in the required-structure check and the P-1 Status Board row passing the exact-token state check.
 - **Strategic positioning package P-2 recorded as UNSIGNED proposal (2026-08-31):** competitive thesis («نافس في ذكاء النظام الذي يستخدم النموذج»), explicit non-goals, distributed-intelligence principle + capability formula, candidate identity statement, and v0–v3 roadmap preserved verbatim in `docs/PROPOSALS.md` §P-2. Its `v0` is a **third** Phase-1 scope formulation (besides the signed scope and P-1 §4); the signed scope in `docs/PRODUCT.md` remains the only current one until the owner decides Q-6.
+- **P-2 intake verified (2026-08-31, on `2f8f682` tree):** `bash scripts/verify/verify.sh` → `RESULT: PASS — 3 check group(s)`, exit 0 — P-1 §5 confirmed intact after an editing slip during P-2 insertion was immediately restored (see handoff record 6); structure and exact-token checks pass.
 - **Phase-1 opening verified (2026-08-31, on `cbd1887` tree):** `bash scripts/verify/verify.sh` → `RESULT: PASS — 3 check group(s)`, exit 0 — including the extended exact-token vocabulary (`NOT STARTED`, `BLOCKED`) now enforced by `verify_content.sh` and required-file coverage for `docs/PRODUCT.md` added to `verify_structure.sh`.
 
 ## Open Questions
