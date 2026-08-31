@@ -53,6 +53,59 @@ Immediate next step:
 
 ## Latest handoff records
 
+### 2026-08-31 21:40 UTC — Phase 1 opening — handoff
+
+Agent:        Arena Agent (session-scoped; identity irrelevant to the contract)
+Branch:       `arena/01a05905-canyou`
+Base commit:  `146306f` (end of the governance phase)
+Head commit:  `cbd1887` (phase opening) + the commit carrying this record
+
+Done (state + evidence):
+  - Signed Product Definition recorded — COMMITTED — `cbd1887`: verbatim owner
+    statement (Arabic, authoritative) in `docs/PRODUCT.md` with source + date;
+    identity = Agent Operating Platform; first execution phase = thin slice
+    (Tool Registry + Policy Gate + one Connector)
+  - Derivation pipeline + provenance rules enshrined — COMMITTED — `cbd1887`:
+    `AGENTS.md` §2 (no requirement without owner/source; no implementation
+    without a requirement; no VERIFIED without evidence) and §7 (reality check
+    rewritten); `README.md` status updated
+  - Vocabulary extended — COMMITTED — first-class `NOT STARTED` / `BLOCKED`
+    tokens, exact-token enforced by `verify_content.sh`; `docs/PRODUCT.md`
+    added to `verify_structure.sh` required files
+  - Verification passing — VERIFIED — `bash scripts/verify/verify.sh` →
+    `RESULT: PASS — 3 check group(s)`, exit 0 (run before each phase-opening
+    commit; recorded in `tasks/CURRENT.md` → Verified Facts)
+  - Backlog updated — T-001 DONE (definition recorded); T-009/T-010/T-011
+    added with explicit blocking relations
+
+Not done / remaining:
+  - Requirements for the thin slice (`T-009`) — NOT STARTED; owner decides the
+    drafting mode (Q-4): owner-drafted, or an agent draft marked DOCUMENTED
+    until owner signature
+  - Architecture ADR-001 (`T-010`) and stack decision (`T-002`) — owner steps
+  - Thin-slice implementation (`T-011`) — BLOCKED by the three above; no
+    application code may exist before they complete
+  - Baseline maintainer steps — unchanged: CI activation (`T-008`), first
+    green run link, merge of PR #1
+
+Decisions made this session:
+  - The broader 10-layer platform map discussed on 2026-08-31 was deliberately
+    NOT recorded: it stays owner draft material until derived and signed
+    through the pipeline (recorded explicitly in `docs/PRODUCT.md` §4)
+  - Product identity and thin-slice scope come only from the owner’s signed
+    sentence; nothing was inferred from the repository name or README
+
+Risks / open questions:
+  - Q-2 (stack), Q-3 (docs language), Q-4 (requirements drafting mode) remain
+    open for the owner in `tasks/CURRENT.md`
+  - Phase-opening commits joined PR #1 (session branch); PR scope now spans
+    baseline + phase opening — still zero application code; merge order is the
+    maintainer’s call
+
+Immediate next step:
+  - Owner: answer Q-4 and Q-2. Until then agents hold: no requirements
+    drafting, no stack, no implementation.
+
 ### 2026-08-31 20:45 UTC — T-000 — terminology refinement handoff
 
 Agent:        Arena Agent (session-scoped; identity irrelevant to the contract)

@@ -24,8 +24,8 @@
 | CI execution | NOT VERIFIED | `gh pr checks 1` → “no checks reported”; `actions/runs` total_count = 0 (2026-08-31) |
 | Collaboration templates | COMMITTED | `.github/ISSUE_TEMPLATE/`, `.github/pull_request_template.md` @ `640ac83` |
 | Repository meta files | COMMITTED | `README.md`, `CONTRIBUTING.md`, `CHANGELOG.md`, `LICENSE`, `.editorconfig`, `.gitignore` @ `640ac83` |
-| **Product Definition record** | IMPLEMENTED | `docs/PRODUCT.md` (this commit series — signed owner definition, verbatim, with source and date) |
-| **Derivation rules + pipeline enshrined** | IMPLEMENTED | `AGENTS.md` §2 + §7, `README.md` status (this commit series; source: owner, 2026-08-31) |
+| **Product Definition record** | COMMITTED | `docs/PRODUCT.md` @ `cbd1887` — signed owner definition, verbatim, with source and date |
+| **Derivation rules + pipeline enshrined** | COMMITTED | `AGENTS.md` §2 + §7, `README.md` status @ `cbd1887`; source: owner, 2026-08-31 |
 | **Requirements (thin slice)** | NOT STARTED | Pipeline position: immediately after Product Definition; owner/architect step — or a delegated draft awaiting owner signature (Q-4) |
 | **Architecture (thin slice)** | NOT STARTED | Blocked by Requirements (`T-010`) |
 | **Stack decision** | NOT STARTED | Owner decision (`T-002`), scoped to the thin slice |
@@ -43,6 +43,7 @@
 - **CI WORKFLOW = NOT INSTALLED (evidence, 2026-08-31):** `git ls-files .github/workflows/` → empty output; `test ! -e .github/workflows/ci.yml` → true. The workflow content is PREPARED at `.github/pending/ci.yml` (tracked, verified via `git ls-files .github/pending/`).
 - **State-vocabulary checker hardened + negative-tested (2026-08-31, on `1f9eb6c` tree):** `verify_content.sh` validates the Status Board state cell by exact token. Negative test: injecting the bogus token `STAGED-READY` made `verify_content.sh` FAIL (exit 1) naming the exact row; restoring the file made the full suite PASS again.
 - **Product Definition signed (owner decision, 2026-08-31):** verbatim owner statement recorded in `docs/PRODUCT.md` — identity: Agent Operating Platform; first execution phase: thin slice (Tool Registry + Policy Gate + one Connector). Q-1 is answered.
+- **Phase-1 opening verified (2026-08-31, on `cbd1887` tree):** `bash scripts/verify/verify.sh` → `RESULT: PASS — 3 check group(s)`, exit 0 — including the extended exact-token vocabulary (`NOT STARTED`, `BLOCKED`) now enforced by `verify_content.sh` and required-file coverage for `docs/PRODUCT.md` added to `verify_structure.sh`.
 
 ## Open Questions
 
