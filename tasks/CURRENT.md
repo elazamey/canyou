@@ -27,6 +27,7 @@
 | **Product Definition record** | COMMITTED | `docs/PRODUCT.md` @ `cbd1887` — signed owner definition, verbatim, with source and date |
 | **Derivation rules + pipeline enshrined** | COMMITTED | `AGENTS.md` §2 + §7, `README.md` status @ `cbd1887`; source: owner, 2026-08-31 |
 | **Requirements (thin slice)** | NOT STARTED | Pipeline position: immediately after Product Definition; owner/architect step — or a delegated draft awaiting owner signature (Q-4) |
+| **Constraints package P-1** | DOCUMENTED | `docs/PROPOSALS.md` §P-1 — UNSIGNED proposal (9 rules, six areas, five pillars, Phase-1 expansion); governs nothing until owner signs (Q-5/Q-6) |
 | **Architecture (thin slice)** | NOT STARTED | Blocked by Requirements (`T-010`) |
 | **Stack decision** | NOT STARTED | Owner decision (`T-002`), scoped to the thin slice |
 | **Thin-slice implementation** | BLOCKED | Requires Requirements + Architecture + Stack; no application code may exist before that |
@@ -43,6 +44,7 @@
 - **CI WORKFLOW = NOT INSTALLED (evidence, 2026-08-31):** `git ls-files .github/workflows/` → empty output; `test ! -e .github/workflows/ci.yml` → true. The workflow content is PREPARED at `.github/pending/ci.yml` (tracked, verified via `git ls-files .github/pending/`).
 - **State-vocabulary checker hardened + negative-tested (2026-08-31, on `1f9eb6c` tree):** `verify_content.sh` validates the Status Board state cell by exact token. Negative test: injecting the bogus token `STAGED-READY` made `verify_content.sh` FAIL (exit 1) naming the exact row; restoring the file made the full suite PASS again.
 - **Product Definition signed (owner decision, 2026-08-31):** verbatim owner statement recorded in `docs/PRODUCT.md` — identity: Agent Operating Platform; first execution phase: thin slice (Tool Registry + Policy Gate + one Connector). Q-1 is answered.
+- **Constraints package P-1 recorded as UNSIGNED proposal (2026-08-31):** the platform-constraints message (9-rule set, six constraint areas, five pillars, expanded Phase-1 nomination) is preserved verbatim in `docs/PROPOSALS.md` §P-1 with source and date. Nothing in it governs work yet — promoter to requirement requires owner signature (Q-5/Q-6). The signed Phase-1 scope in `docs/PRODUCT.md` is unchanged.
 - **Phase-1 opening verified (2026-08-31, on `cbd1887` tree):** `bash scripts/verify/verify.sh` → `RESULT: PASS — 3 check group(s)`, exit 0 — including the extended exact-token vocabulary (`NOT STARTED`, `BLOCKED`) now enforced by `verify_content.sh` and required-file coverage for `docs/PRODUCT.md` added to `verify_structure.sh`.
 
 ## Open Questions
@@ -51,11 +53,14 @@
 - **Q-2:** Which application stack for the thin slice? (owner decision, `T-002`)
 - **Q-3:** Documentation language(s) beyond English? (candidate backlog item `T-006`)
 - **Q-4:** Who drafts the Requirements for the thin slice — the owner/architect directly, or an agent-produced draft explicitly marked `DOCUMENTED` until the owner signs it? (owner decision; delegation needs an explicit instruction)
+- **Q-5:** Does the owner sign the P-1 constraint package (9-rule set + six constraint areas) as binding project constraints? All, partially (specify exceptions), or keep as proposal? (owner decision)
+- **Q-6:** Does the owner amend the signed Phase-1 scope (Tool Registry + Policy Gate + one Connector) to the proposed superset (+ Connector Interface, GitHub Connector, Execution Ledger, Security Boundary)? Requires a recorded amendment in `docs/PRODUCT.md`. (owner decision)
 
 ## Next Actions
 
 1. Maintainer: activate CI per `T-008` (web UI; content staged in `.github/pending/ci.yml` and in PR #1), record the first green run link here, then merge PR #1.
-2. Owner: answer Q-4 (Requirements drafting mode) and Q-2 (stack for the thin slice).
-3. Then: `T-009` Requirements → `T-010` Architecture (ADR) → `T-002` Stack → thin-slice implementation tasks.
+2. Owner: decide Q-5 (sign P-1 constraints?) and Q-6 (amend Phase-1 scope?) — the package is preserved unsigned in `docs/PROPOSALS.md` §P-1.
+3. Owner: answer Q-4 (Requirements drafting mode) and Q-2 (stack for the thin slice).
+4. Then: `T-009` Requirements → `T-010` Architecture (ADR) → `T-002` Stack → thin-slice implementation tasks.
 4. **Agents: do NOT implement. No `src/`, no stack, no framework before `T-009`/`T-010`/`T-002` are complete.**
 5. Any agent starting fresh: read `AGENTS.md` → this file → `docs/HANDOFF.md` (in that order).

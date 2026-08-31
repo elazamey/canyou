@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - **Signed Product Definition** (`docs/PRODUCT.md`): canyou is an Agent Operating Platform; first execution phase is a thin slice — Tool Registry + Policy Gate + one Connector. Owner-signed 2026-08-31, recorded verbatim with source.
+- **Unsigned proposal intake log** (`docs/PROPOSALS.md`): P-1 platform constraints package (9-rule set, six constraint areas, five pillars, Phase-1 expansion nomination) preserved verbatim, explicitly unsigned — awaiting owner decisions Q-5/Q-6.
 - **Derivation pipeline + requirement-provenance rules enshrined in the contract** (`AGENTS.md`): Product Definition → Requirements → Architecture → Stack → Tasks → Implementation → Verification → Evidence → Commit → Handoff; no requirement without an owner/source, no implementation without a requirement, no VERIFIED without evidence. Status-board vocabulary extended with first-class `NOT STARTED` / `BLOCKED` (exact-token enforced).
 - Agent-ready repository baseline: agent operating contract (`AGENTS.md`), work-state files
   (`tasks/CURRENT.md`, `tasks/BACKLOG.md`), continuation protocol (`docs/HANDOFF.md`),

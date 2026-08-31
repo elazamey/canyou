@@ -23,6 +23,7 @@ required_files=(
   "docs/SECURITY.md"
   "docs/HANDOFF.md"
   "docs/PRODUCT.md"
+  "docs/PROPOSALS.md"
   "tasks/CURRENT.md"
   "tasks/BACKLOG.md"
   "scripts/verify/verify.sh"
