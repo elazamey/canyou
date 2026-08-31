@@ -1,6 +1,6 @@
-# Requirements — Phase 1 Thin Slice (DRAFT)
+# Requirements — Phase 1 Thin Slice (SIGNED)
 
-> **Status: DOCUMENTED — agent draft, not binding.** Delegated by the owner (decision Q-4, 2026-08-31, recorded in `docs/CONSTRAINTS.md` §Decision record). Derived **exclusively** from signed material: `docs/PRODUCT.md` (signed definition) and `docs/CONSTRAINTS.md` (signed constraints). Nothing in `docs/PROPOSALS.md` sources a requirement. These requirements govern nothing until the owner signs them; signing turns this file into the binding Requirements record (task `T-009`).
+> **Status: SIGNED — binding Requirements record.** Signed via OWNER DIRECTIVE (Q-7 = SIGNED), 2026-08-31 — see the signature block and `docs/CONSTRAINTS.md` §Decision record. Originally a delegated agent draft (owner decision Q-4, 2026-08-31) derived **exclusively** from signed material: `docs/PRODUCT.md` (signed definition) and `docs/CONSTRAINTS.md` (signed constraints). Nothing in `docs/PROPOSALS.md` sources a requirement. The owner directive addendum (2026-08-31) below extends — never narrows — R-1..R-7.
 
 **Slice scope (signed, formulation (a)):** Tool Registry + Policy Gate + one Connector. Non-goals are explicit in R-7.
 
@@ -71,8 +71,18 @@ Out of scope for Phase 1 (each is platform future, not slice work): model integr
 
 Areas 1, 3, 4 and the ledger clause of 6 (`docs/CONSTRAINTS.md`) are **deferred-by-design** for the slice and obeyed by not being precluded; areas 2 and 6 are fully binding now (see `docs/CONSTRAINTS.md` §Applying the constraints to Phase 1).
 
-## Signature block (empty until signed)
+## Owner directive addendum (2026-08-31)
 
-- Owner signature: _pending_
-- Date: _pending_
-- Effect upon signing: this file becomes the binding Requirements record; task `T-010` (Architecture ADR) unblocks.
+> Signed with Q-7 via the OWNER DIRECTIVE («التصنيف: OWNER DECISION — الحالة: ACTIVE»). Each item extends its requirement; requirement minima remain binding within the supersets.
+
+1. **Per-operation traceability (directive §8)** — every operation executed by the slice emits a trace record carrying at minimum: `execution_id`, `agent_id`, `tool_id`, `timestamp`, `policy_decision`, input/output evidence reference, and artifact reference where applicable. Superset of R-5 (its four mandatory fields remain required within it). Deliberately **not** an independent Execution Ledger system.
+2. **Security contract (directive §6)** — every tool declares: identity, permissions, risk level, approval requirement, audit information. Destructive operations (merge/delete/destructive) are never granted as default permissions. Extends R-1/R-2.
+3. **Connector contract (directive §7)** — approved chain: Agent → Tool Registry → Policy Gate → Connector Runtime → GitHub API → Evidence. **GitHub is the first connector** (owner selection — resolves R-3’s deliberately deferred provider choice for ADR-0001).
+4. **Phase-1 slice composition (directive §4-D, §5)** — within scope (a): Tool Registry, Policy Gate, Connector Interface, one GitHub Connector, tests and permission boundaries, minimal per-execution evidence. Directive §5 exclusions reinforce R-7 (no Vercel/Cloudflare/extra connectors, no multi-agent, no advanced memory, no metering/billing implementation, no marketplace, no training, no independent full ledger, no scope expansion).
+5. **Free-first architecture (directive §9)** — never select a service merely for a “free tier”; Canyou Core must not stop working because an external service became paid; provider abstraction is mandatory; Gemini/Hugging Face/local models are providers, never the heart of the system. Consistent with constraint areas 1–3 (deferred-by-design for the slice, not precluded).
+
+## Signature block (SIGNED)
+
+- Owner signature: **elazamey (sayed_elazamy)** — via OWNER DIRECTIVE, Q-7 = SIGNED («القرار أدناه ملزم للتنفيذ، ولا يحتاج إلى إعادة طلب موافقة على كل خطوة داخله»)
+- Date: 2026-08-31
+- Effect upon signing: **executed** — this file is the binding Requirements record; `T-010` (Architecture ADR) unblocked; implementation (`T-011`) proceeds only after the ADR is fixed.

@@ -14,6 +14,10 @@ Dispositions recorded from that signature:
 | **Q-6** | Phase-1 scope formulation **(a) — the signed one — reaffirmed**: «Tool Registry + Policy Gate + Connector واحد». Formulations (b) (P-1 §4) and (c) (P-2 §6 `v0`) are **not adopted**. `docs/PRODUCT.md` is unchanged. |
 | **Q-4** | Owner delegates the Requirements draft to the agent: produced as `DOCUMENTED` (`docs/REQUIREMENTS.md`) until the owner signs it. |
 | **Q-2** | Stack discussion explicitly deferred until requirements are settled. |
+| **Q-7 (owner directive, 2026-08-31)** | Requirements **SIGNED** — `docs/REQUIREMENTS.md` is the binding Requirements record; directive addendum recorded there (per-operation traceability §8, security contract §6, connector contract §7, slice composition §4-D/§5, free-first §9). |
+| **PR #1 (owner directive, 2026-08-31)** | Merge **approved**; execution evidence recorded in `tasks/CURRENT.md`. |
+| **Phase-1 slice (owner directive §4-D/§5, 2026-08-31)** | Minimal vertical slice **within (a)**: Tool Registry + Policy Gate + Connector Interface + one GitHub Connector + tests/permission boundaries + minimal per-execution evidence. GitHub selected as the first connector (R-3 deferral resolved for ADR-0001). No independent ledger, metering, memory, or multi-agent. |
+| **P-3 (owner directive, 2026-08-31)** | Remains `PROPOSED/UNSIGNED`; never executable requirements without an independent owner decision. |
 
 ## The nine rules (source: owner channel 2026-08-31; signed Q-5)
 

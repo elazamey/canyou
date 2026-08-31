@@ -7,7 +7,7 @@
 
 ## Active Task
 
-**T-009 — Requirements for the thin slice (delegated draft DELIVERED, awaiting owner signature).** Owner decision batch recorded 2026-08-31 (`docs/CONSTRAINTS.md` §Decision record): Q-5 constraints signed in full; Q-6 Phase-1 scope formulation **(a)** reaffirmed (no expansion — «لا ترقية للنطاق ولا كود خارج ذلك قبل تثبيت المتطلبات»); Q-4 delegation executed — `docs/REQUIREMENTS.md` is a `DOCUMENTED` draft derived from signed material only; Q-2 stack deferred until requirements are signed. **No application code until T-009 signature + T-010 + T-002.**
+**OWNER DIRECTIVE execution (2026-08-31) — sequential Steps A→D.** Step A (Q-7): **EXECUTED** — `docs/REQUIREMENTS.md` SIGNED (binding) with the directive addendum (§6 security contract, §7 connector contract + GitHub as first connector, §8 traceability fields, §9 free-first); decision rows appended to `docs/CONSTRAINTS.md`; P-3 confirmed PROPOSED/UNSIGNED. Step B (PR #1 merge, approved): executing next. Step C (T-010 ADR + stack per directive criteria): follows B. Step D (minimal vertical slice): only after the ADR is fixed.
 
 ## Status Board
 
@@ -25,7 +25,7 @@
 | Repository meta files | COMMITTED | `README.md`, `CONTRIBUTING.md`, `CHANGELOG.md`, `LICENSE`, `.editorconfig`, `.gitignore` @ `640ac83` |
 | **Product Definition record** | COMMITTED | `docs/PRODUCT.md` @ `cbd1887` — signed owner definition, verbatim, with source and date |
 | **Derivation rules + pipeline enshrined** | COMMITTED | `AGENTS.md` §2 + §7, `README.md` status @ `cbd1887`; source: owner, 2026-08-31 |
-| **Requirements (thin slice) — delegated draft (T-009)** | DOCUMENTED | `docs/REQUIREMENTS.md` @ `09017cd` — R-1..R-7 sourced to signed material only, acceptance per requirement; awaiting owner signature (Q-7) |
+| **Requirements record (T-009)** | COMMITTED | `docs/REQUIREMENTS.md` @ this commit — **SIGNED** via OWNER DIRECTIVE Q-7 (2026-08-31); directive addendum (§6–§9) appended; R-1..R-7 unchanged |
 | **Binding constraints record (Q-5)** | COMMITTED | `docs/CONSTRAINTS.md` @ `09017cd` — nine rules + six areas signed in full; verbatim owner decision record |
 | **Requirements provenance checker** | COMMITTED | `scripts/verify/verify_requirements.sh` @ `09017cd` — no requirement without a valid signed source |
 | **Constraints package P-1** | COMMITTED | `docs/PROPOSALS.md` §P-1 @ `c9ad259` — intake record; **signed in full by the owner (Q-5, 2026-08-31)** → binding text promoted to `docs/CONSTRAINTS.md` |
@@ -60,6 +60,7 @@
 - **P-3 intake verified (2026-08-31):** `bash scripts/verify/verify.sh` → `RESULT: PASS — 4 check group(s)`, exit 0; P-2 §7 confirmed restored after an insertion slip was caught and fixed before commit (pattern recurrence from the P-2 intake — noted for the record).
 - **Record-integrity rule instituted; checker proven by three negative tests (2026-08-31):** `AGENTS.md` §4.9 (append-only editing rule) + `docs/DEVELOPMENT.md` procedure + `verify_records.sh` (ordering/uniqueness, Source/Status, subsection anchors P-1=5/P-2=7/P-3=5, handoff field completeness) + `bash -n` syntax gate in `verify.sh`. Negative tests, each with tamper proof: (A) stripping a required field from the top handoff record → FAIL naming the exact record; (B) deleting one P-1 subsection → FAIL “P-1 has 4 subsections, anchor expects 5”; (C) injected unterminated-quote syntax error → suite FAIL via the `bash -n` gate. shellcheck 0.11.0 clean on all scripts; suite `RESULT: PASS — 5 check group(s)`.
 - **Defect found & fixed during hardening — vacuous checker (2026-08-31, disclosed):** the first version of `verify_records.sh` contained a regex parsing error (`\ ` inside `[[ =~ ]]`) that made bash abort the script silently with **exit 0** — checks 3–4 never ran while the suite reported PASS. The first negative-test round exposed it (both tamper tests wrongly passed); fixed by glob-based parsing, and the new `bash -n` gate makes this defect class impossible to hide in future. Lesson recorded: a check that cannot fail is not a check — every new check ships with a passing negative test.
+- **OWNER DIRECTIVE received + Step A executed (2026-08-31, 22:50 UTC):** pre-state evidence captured (tree clean, HEAD `6b65726`, suite `PASS — 5 check group(s)`, PR #1 OPEN @ `6b65726`). Q-7 applied: `docs/REQUIREMENTS.md` status → SIGNED, signature block filled (elazamey/sayed_elazamy via directive), directive addendum appended (§6/§7/§8/§9); decision rows (Q-7, PR #1 approval, slice composition, P-3 unsigned) appended to `docs/CONSTRAINTS.md`; T-009 → DONE. Structure check before commit: REQUIREMENTS headings before/after compared — no existing section replaced (addendum inserted before the signature block; R-1..R-7 untouched).
 - **Phase-1 opening verified (2026-08-31, on `cbd1887` tree):** `bash scripts/verify/verify.sh` → `RESULT: PASS — 3 check group(s)`, exit 0 — including the extended exact-token vocabulary (`NOT STARTED`, `BLOCKED`) now enforced by `verify_content.sh` and required-file coverage for `docs/PRODUCT.md` added to `verify_structure.sh`.
 
 ## Open Questions
@@ -70,12 +71,12 @@
 - **Q-4: ANSWERED (2026-08-31)** — owner delegated the Requirements draft to the agent, `DOCUMENTED` until signature; delegation executed (`docs/REQUIREMENTS.md`).
 - **Q-5: ANSWERED (2026-08-31)** — constraints signed in full; P-2 identity statement endorsed as a refinement candidate only; rest of P-2 unsigned (`docs/CONSTRAINTS.md` §Decision record).
 - **Q-6: ANSWERED (2026-08-31)** — formulation **(a)** reaffirmed; (b) and (c) not adopted; `docs/PRODUCT.md` unchanged.
-- **Q-7 (new):** Does the owner sign `docs/REQUIREMENTS.md` (R-1..R-7) as the binding Requirements record? Signing unblocks `T-010` (Architecture ADR). (owner decision)
+- **Q-7: ANSWERED (2026-08-31, OWNER DIRECTIVE)** — Requirements SIGNED; `docs/REQUIREMENTS.md` binding; directive addendum recorded; `T-010` unblocked.
 
 ## Next Actions
 
-1. Owner: review `docs/REQUIREMENTS.md` and sign (Q-7) — signature block at the end of the file.
-2. Owner: merge PR #1 — CI is live and green (`T-008` DONE; four green runs, evidence in Verified Facts).
-3. After Q-7: `T-010` Architecture ADR-001 (pair with `T-004`) → `Q-2` stack decision → `T-011` thin-slice implementation tasks.
-4. **Agents: do NOT implement. No `src/`, no stack, no framework before `T-009` signature + `T-010` + `T-002`. No scope expansion (owner, 2026-08-31).**
+1. Step B (owner-approved): merge PR #1 — verify PR identity + CI green first, then merge and record main-head evidence.
+2. Step C: `T-010` — ADR-0001 (stack evaluation per directive §C criteria: actual requirements, cost, free operability, security, scalability); no implementation before the ADR is fixed.
+3. Step D (after ADR): minimal vertical slice per directive §4-D within scope (a).
+4. **Agents: no scope expansion beyond directive §4-D/§5; stop conditions per directive §12 apply.**
 5. Any agent starting fresh: read `AGENTS.md` → this file → `docs/HANDOFF.md` (in that order).
