@@ -27,7 +27,7 @@
 | **Product Definition record** | COMMITTED | `docs/PRODUCT.md` @ `cbd1887` — signed owner definition, verbatim, with source and date |
 | **Derivation rules + pipeline enshrined** | COMMITTED | `AGENTS.md` §2 + §7, `README.md` status @ `cbd1887`; source: owner, 2026-08-31 |
 | **Requirements (thin slice)** | NOT STARTED | Pipeline position: immediately after Product Definition; owner/architect step — or a delegated draft awaiting owner signature (Q-4) |
-| **Constraints package P-1** | DOCUMENTED | `docs/PROPOSALS.md` §P-1 — UNSIGNED proposal (9 rules, six areas, five pillars, Phase-1 expansion); governs nothing until owner signs (Q-5/Q-6) |
+| **Constraints package P-1** | COMMITTED | `docs/PROPOSALS.md` §P-1 @ `c9ad259` — UNSIGNED proposal (9 rules, six areas, five pillars, Phase-1 expansion); governs nothing until owner signs (Q-5/Q-6) |
 | **Architecture (thin slice)** | NOT STARTED | Blocked by Requirements (`T-010`) |
 | **Stack decision** | NOT STARTED | Owner decision (`T-002`), scoped to the thin slice |
 | **Thin-slice implementation** | BLOCKED | Requires Requirements + Architecture + Stack; no application code may exist before that |
@@ -45,6 +45,7 @@
 - **State-vocabulary checker hardened + negative-tested (2026-08-31, on `1f9eb6c` tree):** `verify_content.sh` validates the Status Board state cell by exact token. Negative test: injecting the bogus token `STAGED-READY` made `verify_content.sh` FAIL (exit 1) naming the exact row; restoring the file made the full suite PASS again.
 - **Product Definition signed (owner decision, 2026-08-31):** verbatim owner statement recorded in `docs/PRODUCT.md` — identity: Agent Operating Platform; first execution phase: thin slice (Tool Registry + Policy Gate + one Connector). Q-1 is answered.
 - **Constraints package P-1 recorded as UNSIGNED proposal (2026-08-31):** the platform-constraints message (9-rule set, six constraint areas, five pillars, expanded Phase-1 nomination) is preserved verbatim in `docs/PROPOSALS.md` §P-1 with source and date. Nothing in it governs work yet — promoter to requirement requires owner signature (Q-5/Q-6). The signed Phase-1 scope in `docs/PRODUCT.md` is unchanged.
+- **P-1 intake verified (2026-08-31, on `c9ad259` tree):** `bash scripts/verify/verify.sh` → `RESULT: PASS — 3 check group(s)`, exit 0 — including `docs/PROPOSALS.md` in the required-structure check and the P-1 Status Board row passing the exact-token state check.
 - **Phase-1 opening verified (2026-08-31, on `cbd1887` tree):** `bash scripts/verify/verify.sh` → `RESULT: PASS — 3 check group(s)`, exit 0 — including the extended exact-token vocabulary (`NOT STARTED`, `BLOCKED`) now enforced by `verify_content.sh` and required-file coverage for `docs/PRODUCT.md` added to `verify_structure.sh`.
 
 ## Open Questions

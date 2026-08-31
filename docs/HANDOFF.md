@@ -53,6 +53,50 @@ Immediate next step:
 
 ## Latest handoff records
 
+### 2026-08-31 22:20 UTC — P-1 proposal intake — handoff
+
+Agent:        Arena Agent (session-scoped; identity irrelevant to the contract)
+Branch:       `arena/01a05905-canyou`
+Base commit:  `e792241` (end of the phase-1 opening)
+Head commit:  `c9ad259` (P-1 intake) + the commit carrying this record
+
+Done (state + evidence):
+  - Constraints package preserved — COMMITTED — `c9ad259`: `docs/PROPOSALS.md`
+    §P-1 records the owner-channel message verbatim (9-rule set, six constraint
+    areas, five pillars, Governed Connector Framework framing, expanded
+    Phase-1 nomination) with source and date
+  - No unsigned promotion — VERIFIED — the signed files were not touched:
+    `docs/PRODUCT.md` unchanged (signed Phase-1 scope intact); P-1 is marked
+    PROPOSED/UNSIGNED and governs nothing (Q-5/Q-6 opened in
+    `tasks/CURRENT.md`); `docs/PROPOSALS.md` added to the structure check
+  - Verification passing — VERIFIED — `bash scripts/verify/verify.sh` →
+    `RESULT: PASS — 3 check group(s)`, exit 0 (before each commit)
+
+Not done / remaining (owner decisions — the only way P-1 becomes binding):
+  - Q-5: sign the constraint set + six areas? (all / partial / keep proposed)
+  - Q-6: amend the signed Phase-1 scope to the proposed superset (+ Connector
+    Interface, GitHub Connector, Execution Ledger, Security Boundary)? —
+    requires a recorded amendment in `docs/PRODUCT.md`
+  - Carried: Q-4 (requirements drafting mode), Q-2 (stack), T-008 (CI
+    activation), merge of PR #1
+
+Decisions made this session:
+  - The constraints message was classified as proposal-voice («أرشح»، «في
+    رأيي»، «سأتعامل معها…») — recorded as unsigned input, not requirement
+  - Intake-before-signature: the repository preserves the material now (§1:
+    unrecorded = nonexistent) while signature gates promotion (§2: no
+    requirement without owner/source)
+
+Risks / open questions:
+  - If the owner signs P-1, the signed Phase-1 sentence and the expanded
+    nomination must be reconciled in one recorded amendment (avoid two
+    competing “current scope” statements)
+  - Q-2/Q-4 dependencies unchanged: no requirements, no stack, no code
+
+Immediate next step:
+  - Owner: answer Q-5/Q-6 (and carried Q-4/Q-2). Until then: hold — no
+    promotion of P-1, no requirements drafting, no implementation.
+
 ### 2026-08-31 21:40 UTC — Phase 1 opening — handoff
 
 Agent:        Arena Agent (session-scoped; identity irrelevant to the contract)
