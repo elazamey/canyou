@@ -8,7 +8,7 @@
 
 ## Active Task
 
-**T-000 — Agent-Ready Repository Baseline: delivered on branch, pending merge + CI activation.** Governance layer complete except the one-step CI activation (`T-008`). No application stack, no product code — deliberate. Next task starts only after the maintainer answers Q-1.
+**T-000 — Agent-Ready Repository Baseline: audited, ready to close pending merge + CI activation.** Governance layer complete except one-step CI activation (`T-008`). A contract audit of PR #1 (2026-08-31, commit `99ea878`) found and fixed 5 state-conflation points; no `VERIFIED` claim exists for CI execution. No application stack, no product code — deliberate. **Phase is closed from the agent side: T-001 is blocked until the maintainer defines the purpose of `canyou`.**
 
 ## Status Board
 
@@ -32,6 +32,8 @@
   - Result (2026-08-31, on commit `640ac83` working tree): `RESULT: PASS — 3 check group(s). Repository state matches its contract.` — exit code 0; verify_content 12 checks PASS, verify_hygiene 4 checks PASS, verify_structure 18 PASS + 1 accepted-pending NOTE (CI staged, T-008).
 - **`main` history before this work:** single commit `e0b7fcf` containing only a `README.md` stub — confirmed via `git log --oneline` and directory listing on 2026-08-31. Nothing else was ever implemented in this repository.
 - **Push constraint (evidence):** `git push` of a commit containing `.github/workflows/ci.yml` was rejected by GitHub — `refusing to allow a GitHub App to create or update workflow .github/workflows/ci.yml without workflows permission`. Hence the staged-pending design and task `T-008`.
+- **CI EXECUTION = NOT VERIFIED (audit, 2026-08-31):** `gh pr checks 1` → “no checks reported on the ‘arena/01a05905-canyou’ branch”. No CI run has ever executed in this repository; any CI claim above `DOCUMENTED`/`IMPLEMENTED` (file) is forbidden until a green run link is recorded here.
+- **PR #1 scope audit (2026-08-31):** `git diff --name-only origin/main...HEAD` lists 23 governance files (markdown / yaml / bash / config) — zero application code, `main` still at `e0b7fcf` (verified via `git fetch` + `git log origin/main`).
 
 ## Open Questions
 
@@ -43,6 +45,6 @@
 
 1. Maintainer: activate CI per `T-008` — move `.github/pending/ci.yml` → `.github/workflows/ci.yml` via the GitHub web UI (on this branch or after merge), then delete the pending file and mark `T-008` DONE.
 2. Maintainer: review and merge the baseline PR into `main`.
-3. After the first CI run, record the run link here and raise “CI workflow” to `VERIFIED`.
-4. Maintainer: answer Q-1, then start `T-001` (define product purpose).
+3. After the first CI run, record the run link here and raise “CI execution on GitHub” to `VERIFIED`.
+4. Maintainer: answer Q-1 (what is `canyou`?), then start `T-001`. **No agent work is authorized before Q-1 is answered — no stack, no code.**
 5. Any agent starting fresh: read `AGENTS.md` → this file → `docs/HANDOFF.md` (in that order).

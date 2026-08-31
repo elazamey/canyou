@@ -53,6 +53,51 @@ Immediate next step:
 
 ## Latest handoff records
 
+### 2026-08-31 20:10 UTC — T-000 — audit handoff (phase close-out)
+
+Agent:        Arena Agent (session-scoped; identity irrelevant to the contract)
+Branch:       `arena/01a05905-canyou`
+Base commit:  `840477f` (state of PR #1 at review time)
+Head commit:  `99ea878` (state fixes) + the commit carrying this record
+
+Done (state + evidence):
+  - PR #1 audited against the contract — VERIFIED — scope evidence:
+    `git diff --name-only origin/main...HEAD` = 23 governance files, zero
+    application code; `main` still at `e0b7fcf`; PR OPEN with commits
+    `640ac83`, `840477f` (`gh pr view 1`)
+  - CI state granularity enforced — COMMITTED — Status Board now splits
+    CI into contract (DOCUMENTED) / file (IMPLEMENTED, staged) / execution
+    (NOT VERIFIED); evidence: `gh pr checks 1` → “no checks reported”
+  - 5 state-conflation points fixed — COMMITTED — `99ea878`: present-tense
+    references to `.github/workflows/ci.yml` in `AGENTS.md` §5,
+    `CHANGELOG.md`, `docs/ARCHITECTURE.md`, `docs/SECURITY.md`,
+    `docs/OPERATIONS.md` reworded to staged/conditional (T-008)
+  - Verification suite still passing — VERIFIED — `bash scripts/verify/verify.sh`
+    → `RESULT: PASS — 3 check group(s)`, exit 0 (run before each audit commit)
+
+Not done / remaining (all maintainer-side; no agent work authorized):
+  - CI activation (`T-008`) — maintainer web-UI action, then record first green
+    run link in `tasks/CURRENT.md` → Verified Facts
+  - Merge of PR #1 into `main`
+  - Q-1 (purpose of `canyou`) — blocks `T-001`/`T-002` and all application code
+
+Decisions made this session:
+  - Adopted finer CI granularity: CI CONTRACT = DOCUMENTED, CI FILE =
+    IMPLEMENTED (staged), CI EXECUTION = NOT VERIFIED, LOCAL VERIFICATION =
+    VERIFIED — recorded in the Status Board and Verified Facts
+  - No workaround attempted for the GitHub `workflows`-permission constraint;
+    staged-pending design kept as the honest interim state
+
+Risks / open questions:
+  - Until `T-008` closes, CI enforcement is manual (PR evidence); the strict
+    gate returns automatically once the workflow file exists and `T-008` is
+    marked DONE — if `T-008` is closed without activating, verification fails
+  - Q-1/Q-2/Q-3 in `tasks/CURRENT.md` remain open for the maintainer
+
+Immediate next step:
+  - Maintainer only: activate CI (T-008), merge PR #1, answer Q-1. Agents: stop
+    here — do not start T-001 and do not write application code.
+
 ### 2026-08-31 19:30 UTC — T-000 — handoff
 
 Agent:        Arena Agent (session-scoped; identity irrelevant to the contract)
