@@ -53,6 +53,61 @@ Immediate next step:
 
 ## Latest handoff records
 
+### 2026-08-31 23:45 UTC — Owner signatures + delegated requirements draft — handoff (incl. history-incident recovery)
+
+Agent:        Arena Agent (session-scoped; identity irrelevant to the contract)
+Branch:       `arena/01a05905-canyou`
+Base commit:  `8b15b8d` (end of the P-2 intake)
+Head commit:  `09017cd` (signatures + requirements draft) + the commit carrying this record
+
+Done (state + evidence):
+  - Owner decision batch recorded — COMMITTED — `09017cd`: `docs/CONSTRAINTS.md`
+    §Decision record (verbatim): Q-5 constraints signed in full; Q-6 scope
+    formulation (a) reaffirmed («لا ترقية للنطاق ولا كود»); Q-4 delegation;
+    Q-2 deferred. `docs/PRODUCT.md` NOT modified
+  - Binding constraints record — COMMITTED — `docs/CONSTRAINTS.md` @ `09017cd`
+    (nine rules + six areas + Phase-1 application note)
+  - Delegated requirements draft — DOCUMENTED (by design, awaiting signature) —
+    `docs/REQUIREMENTS.md`: R-1..R-7, each with Source (PRODUCT/CONSTRAINTS
+    only) and deterministic Acceptance; signature block empty until the owner
+    signs (Q-7 opened)
+  - Requirements provenance checker — COMMITTED + VERIFIED —
+    `verify_requirements.sh` @ `09017cd`: positive pass on the draft; negative
+    test (requirement sourced to PROPOSALS) fails naming the violation; suite
+    `RESULT: PASS — 4 check group(s)`, exit 0
+  - Proposal log status pointers updated — P-1 signed→`CONSTRAINTS.md`;
+    P-2 §5 endorsed as candidate only, rest unsigned
+
+Not done / remaining:
+  - Q-7: owner review + signature of `docs/REQUIREMENTS.md` (unblocks T-010)
+  - Carried: T-008 (CI activation), first green run link, merge of PR #1;
+    Q-2 (stack) after requirements; Q-3 (docs language)
+  - T-011 implementation remains BLOCKED — no application code
+
+Decisions made this session:
+  - Executed the owner’s Q-4 delegation with a strict sourcing rule: signed
+    material only (PRODUCT/CONSTRAINTS); PROPOSALS cannot source requirements
+    (checker-enforced)
+  - R-5 framed as a Gate property (minimal audited decision record), NOT an
+    Execution Ledger component — respecting the owner’s anti-scope-creep Q-6
+
+Risks / open questions:
+  - **History incident (fully recovered, disclosed):** the local branch ref
+    was found reverted to `e0b7fcf` (environment restore anomaly between
+    sessions; not caused by any git command in this session). The first commit
+    attempt (`8f7f002`) was parented on the initial commit. Recovered via
+    soft reset onto the fetched remote tip `8b15b8d` and recommit (`09017cd`);
+    `git diff 8f7f002 09017cd` → empty (zero content loss). The orphan was
+    never pushed; remote history untouched. Lesson recorded: the pushed
+    remote is the durable truth — agents should fetch and verify
+    `origin/<branch>` before committing after any environment gap
+  - A fused-bullet editing slip in `tasks/CURRENT.md` (two facts merged) was
+    detected and repaired before commit B; disclosed here for the record
+
+Immediate next step:
+  - Owner: review `docs/REQUIREMENTS.md` and sign (Q-7). Maintainer: T-008 CI
+    activation + merge PR #1. Agents: hold — no promotion, no code.
+
 ### 2026-08-31 23:00 UTC — P-2 proposal intake — handoff
 
 Agent:        Arena Agent (session-scoped; identity irrelevant to the contract)
