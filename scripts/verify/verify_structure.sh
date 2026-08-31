@@ -24,6 +24,8 @@ required_files=(
   "docs/HANDOFF.md"
   "docs/PRODUCT.md"
   "docs/PROPOSALS.md"
+  "docs/CONSTRAINTS.md"
+  "docs/REQUIREMENTS.md"
   "tasks/CURRENT.md"
   "tasks/BACKLOG.md"
   "scripts/verify/verify.sh"

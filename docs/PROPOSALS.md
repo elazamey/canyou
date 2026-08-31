@@ -6,6 +6,7 @@
 
 **Source:** advisor-voice message conveyed through the owner channel, 2026-08-31 (verbatim closer: «وسأتعامل معها كقيود دائمة للمشروع في المحادثات القادمة» — a statement of the *proposer's* intent, not an owner signature).
 **Status:** awaiting owner decisions Q-5 (constraint signature) and Q-6 (Phase-1 scope amendment) in `tasks/CURRENT.md`.
+**Update 2026-08-31 (owner signature Q-5):** signed **in full** — promoted to the binding record `docs/CONSTRAINTS.md`. This entry remains as intake history.
 **Effect if signed:** becomes binding project constraints and amends/extends the signed definition in `docs/PRODUCT.md`.
 
 ### 1. Proposed binding rule set (verbatim, owner channel)
@@ -57,6 +58,7 @@ The **signed** definition (`docs/PRODUCT.md`, owner, 2026-08-31) fixes the first
 
 **Source:** advisor-voice message conveyed through the owner channel, 2026-08-31 (verbatim markers: «حكمي النهائي», «أرى», «في رأيي»).
 **Status:** awaiting owner decisions (carried Q-5/Q-6/Q-4 in `tasks/CURRENT.md`).
+**Update 2026-08-31 (owner decisions Q-5/Q-6):** §5 identity statement endorsed by the owner as a **refinement candidate only** (no amendment to `docs/PRODUCT.md`); **all other sections remain unsigned**. Phase-1 scope formulation (a) was reaffirmed — this package’s `v0` (§6) is **not adopted**. See `docs/CONSTRAINTS.md` §Decision record.
 **Relationship to P-1:** elaborates P-1 constraints (provider-agnostic, no model training) into a competitive thesis; introduces a version roadmap whose `v0` is a **third formulation of the Phase-1 scope** (see §6 warning).
 
 ### 1. Core thesis (verbatim)
