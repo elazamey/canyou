@@ -18,7 +18,8 @@ Every claim about something in this repository must carry exactly one of these s
 | State | Meaning | Required evidence |
 |---|---|---|
 | `DOCUMENTED` | Described in documentation only | File path + heading |
-| `IMPLEMENTED` | Actually present in the repository files | Path(s) to the implementation |
+| `PREPARED` | Content exists in the repository but **not at its operational location** (e.g., a CI workflow staged under `.github/pending/` instead of `.github/workflows/`) | Path to the staged content |
+| `IMPLEMENTED` | Actually present in the repository files **at its operational location** — for activation-gated artifacts (workflows, configs), staged content is `PREPARED`, not `IMPLEMENTED` | Path(s) to the implementation |
 | `VERIFIED` | Passed a deterministic, reproducible check | Exact command + observed output |
 | `COMMITTED` | Fixed in Git history | Commit SHA |
 | `HANDOFF_READY` | Another agent can safely resume from where work stopped | Handoff record in `docs/HANDOFF.md` |
@@ -28,6 +29,7 @@ Rules:
 - **Documentation is never proof of implementation.** A feature described in `README.md` or `docs/ARCHITECTURE.md` may not exist in code at all. Always check the files.
 - `VERIFIED` requires a reproducible command, not an assertion or an impression.
 - States may only be raised with new evidence, and must be lowered when evidence turns out to be stale.
+- **A negation never satisfies a positive state.** The status board may record absence first-class using `NOT INSTALLED` / `NOT VERIFIED`; these never count as their positive counterparts (`NOT VERIFIED` is not `VERIFIED`; `PREPARED` is not `IMPLEMENTED`).
 
 ## 3. Work lifecycle — mandatory order
 

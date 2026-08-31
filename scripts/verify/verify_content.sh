@@ -16,7 +16,7 @@ note_fail() {
 
 # 1. AGENTS.md defines the full state vocabulary.
 vocab_ok=1
-for state in DOCUMENTED IMPLEMENTED VERIFIED COMMITTED HANDOFF_READY; do
+for state in DOCUMENTED PREPARED IMPLEMENTED VERIFIED COMMITTED HANDOFF_READY; do
   if ! grep -q "${state}" AGENTS.md; then
     echo "FAIL content: AGENTS.md does not mention state ${state}"
     vocab_ok=0
@@ -49,20 +49,24 @@ for section in "## Active Task" "## Status Board" "## Verified Facts" "## Open Q
   fi
 done
 
-# 5. Every Status Board row carries exactly one allowed state.
-bad_rows="$(awk '
+# 5. Every Status Board row carries exactly one allowed state token.
+#    Exact match on the state cell: a negation must never satisfy a positive
+#    state (NOT VERIFIED != VERIFIED, PREPARED != IMPLEMENTED).
+bad_rows="$(awk -F'|' '
   /^## Status Board/ { in_board = 1; next }
   /^## / { in_board = 0 }
   in_board && /^\|/ &&
   $0 !~ /^\|[[:space:]]*[-: ]+\|/ &&
   $0 !~ /^\|[[:space:]]*Item/ {
-    if ($0 !~ /DOCUMENTED|IMPLEMENTED|VERIFIED|COMMITTED|HANDOFF_READY/) print
+    state = $3
+    gsub(/^[[:space:]]+|[[:space:]]+$/, "", state)
+    if (state !~ /^(DOCUMENTED|PREPARED|IMPLEMENTED|VERIFIED|COMMITTED|HANDOFF_READY|NOT INSTALLED|NOT VERIFIED)$/) print
   }
 ' tasks/CURRENT.md)"
 if [[ -z "${bad_rows}" ]]; then
-  echo "PASS content: every Status Board row carries an allowed state"
+  echo "PASS content: every Status Board row carries an exact allowed state token"
 else
-  note_fail "Status Board rows without an allowed state:"
+  note_fail "Status Board rows without an exact allowed state token:"
   printf '%s\n' "${bad_rows}" | sed 's/^/    /'
 fi
 

@@ -1,6 +1,6 @@
 # Current Work State
 
-> Single source of truth for **what is being worked on right now**. Maintained under the contract in [`AGENTS.md`](../AGENTS.md): read it before working, update it before finishing. States: `DOCUMENTED` → `IMPLEMENTED` → `VERIFIED` → `COMMITTED` (+ `HANDOFF_READY`).
+> Single source of truth for **what is being worked on right now**. Maintained under the contract in [`AGENTS.md`](../AGENTS.md): read it before working, update it before finishing. States: `DOCUMENTED` → `PREPARED` → `IMPLEMENTED` → `VERIFIED` → `COMMITTED` (+ `HANDOFF_READY`; absence is recorded as `NOT INSTALLED` / `NOT VERIFIED`).
 
 - **Last updated:** 2026-08-31 (UTC)
 - **Active branch:** `arena/01a05905-canyou`
@@ -19,9 +19,10 @@
 | Continuation protocol | COMMITTED | `docs/HANDOFF.md` @ `640ac83` |
 | Governance documentation | COMMITTED | `docs/ARCHITECTURE.md`, `docs/DEVELOPMENT.md`, `docs/OPERATIONS.md`, `docs/SECURITY.md` @ `640ac83` |
 | Deterministic verification suite | COMMITTED | `scripts/verify/verify.sh` + 3 checks @ `640ac83` |
-| CI workflow contract (what CI must do) | DOCUMENTED | `docs/OPERATIONS.md` §Continuous Integration + `.github/pending/ci.yml` content |
-| CI workflow file | IMPLEMENTED | `.github/pending/ci.yml` @ `640ac83` — staged; activation is maintainer-only (`T-008`) |
-| CI execution on GitHub | DOCUMENTED | Expectation only — **NOT VERIFIED**: zero runs exist. Evidence: `gh pr checks 1` → “no checks reported” (2026-08-31). Raise to `VERIFIED` only with a green run link |
+| CI contract (what CI must do) | DOCUMENTED | `docs/OPERATIONS.md` §Continuous Integration + `.github/pending/ci.yml` content |
+| CI workflow content | PREPARED | `.github/pending/ci.yml` @ `640ac83` — staged; not at its operational location; activation is maintainer-only (`T-008`) |
+| CI workflow installation | NOT INSTALLED | `.github/workflows/ci.yml` does not exist — evidence: `git ls-files .github/workflows/` → empty; `test ! -e .github/workflows/ci.yml` → true (2026-08-31) |
+| CI execution | NOT VERIFIED | `gh pr checks 1` → “no checks reported” (2026-08-31); zero runs exist. Raise to `VERIFIED` only with a green run link |
 | Collaboration templates | COMMITTED | `.github/ISSUE_TEMPLATE/`, `.github/pull_request_template.md` @ `640ac83` |
 | Repository meta files | COMMITTED | `README.md`, `CONTRIBUTING.md`, `CHANGELOG.md`, `LICENSE`, `.editorconfig`, `.gitignore` @ `640ac83` |
 
@@ -32,7 +33,7 @@
   - Result (2026-08-31, on commit `640ac83` working tree): `RESULT: PASS — 3 check group(s). Repository state matches its contract.` — exit code 0; verify_content 12 checks PASS, verify_hygiene 4 checks PASS, verify_structure 18 PASS + 1 accepted-pending NOTE (CI staged, T-008).
 - **`main` history before this work:** single commit `e0b7fcf` containing only a `README.md` stub — confirmed via `git log --oneline` and directory listing on 2026-08-31. Nothing else was ever implemented in this repository.
 - **Push constraint (evidence):** `git push` of a commit containing `.github/workflows/ci.yml` was rejected by GitHub — `refusing to allow a GitHub App to create or update workflow .github/workflows/ci.yml without workflows permission`. Hence the staged-pending design and task `T-008`.
-- **CI EXECUTION = NOT VERIFIED (audit, 2026-08-31):** `gh pr checks 1` → “no checks reported on the ‘arena/01a05905-canyou’ branch”. No CI run has ever executed in this repository; any CI claim above `DOCUMENTED`/`IMPLEMENTED` (file) is forbidden until a green run link is recorded here.
+- **CI EXECUTION = NOT VERIFIED (audit, 2026-08-31):** `gh pr checks 1` → “no checks reported on the ‘arena/01a05905-canyou’ branch”. No CI run has ever executed in this repository; any CI claim above `DOCUMENTED` (contract) / `PREPARED` (content) is forbidden until a green run link is recorded here.
 - **PR #1 scope audit (2026-08-31):** `git diff --name-only origin/main...HEAD` lists 23 governance files (markdown / yaml / bash / config) — zero application code, `main` still at `e0b7fcf` (verified via `git fetch` + `git log origin/main`).
 
 ## Open Questions

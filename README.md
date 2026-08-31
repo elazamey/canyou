@@ -13,10 +13,13 @@
    | State | Meaning | Evidence |
    |---|---|---|
    | `DOCUMENTED` | Described in docs only | File path + heading |
-   | `IMPLEMENTED` | Present in repository files | Path(s) |
+   | `PREPARED` | Content exists, not at its operational location | Path to staged content |
+   | `IMPLEMENTED` | Present at its operational location | Path(s) |
    | `VERIFIED` | Passed a deterministic check | Command + output |
    | `COMMITTED` | Fixed in Git history | Commit SHA |
    | `HANDOFF_READY` | Another agent can resume | Handoff record |
+
+   Absence is recorded first-class as `NOT INSTALLED` / `NOT VERIFIED` — a negation never counts as its positive state.
 
 2. **State lives in the repository:** `tasks/CURRENT.md` (now), `tasks/BACKLOG.md` (next), `docs/HANDOFF.md` (continuation records).
 

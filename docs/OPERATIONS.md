@@ -4,7 +4,7 @@ How this repository is operated and kept trustworthy. Audience: maintainers and 
 
 ## Continuous Integration
 
-Workflow (target path): `.github/workflows/ci.yml` — content currently staged at `.github/pending/ci.yml` until activated (`T-008`). **Status: not active — CI EXECUTION is NOT VERIFIED; zero runs exist.**
+Workflow (target path): `.github/workflows/ci.yml` — **status: NOT INSTALLED** (content is PREPARED at `.github/pending/ci.yml` until activated per `T-008`). **CI EXECUTION: NOT VERIFIED — zero runs exist.**
 
 | Trigger | Jobs | Gate |
 |---|---|---|
