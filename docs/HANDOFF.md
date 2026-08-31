@@ -53,6 +53,53 @@ Immediate next step:
 
 ## Latest handoff records
 
+### 2026-08-31 23:15 UTC — Record-integrity hardening — handoff
+
+Agent:        Arena Agent (session-scoped; identity irrelevant to the contract)
+Branch:       `arena/01a05905-canyou`
+Base commit:  `548d2c5` (P-3 intake)
+Head commit:  `89647d0` (rule + checker + gate) + the commit carrying this record
+
+Done (state + evidence):
+  - Record-integrity rule — COMMITTED — `89647d0`: `AGENTS.md` §4.9 (insert
+    after, never substitute; structure check before commit; disclose losses) +
+    procedure in `docs/DEVELOPMENT.md` (incl. anchor registration on append)
+  - Enforcing checker — COMMITTED + VERIFIED — `verify_records.sh`: entry
+    ordering/uniqueness, Source/Status presence, exact subsection anchors
+    (P-1=5, P-2=7, P-3=5), handoff field completeness. Negative tests with
+    tamper proof: field-strip → FAIL naming the record; subsection deletion →
+    FAIL on anchor mismatch; injected syntax error → FAIL via the new gate
+  - Wrapper hardened — COMMITTED — `verify.sh` now runs `bash -n` on every
+    check before executing it
+  - Suite green — VERIFIED — `RESULT: PASS — 5 check group(s)`, exit 0;
+    shellcheck 0.11.0 clean on all six scripts
+  - Advisor ruling on P-3 recorded — status line in §P-3: remains
+    PROPOSED/UNSIGNED; adopt non-conflicting subset only; no PR merge on it
+
+Not done / remaining:
+  - Q-7 (owner signature on REQUIREMENTS), PR #1 merge decision, Q-2 (stack,
+    after requirements), Q-3 (docs language)
+  - Known follow-up (flagged earlier, still stale): conditional-CI wording in
+    `AGENTS.md` §5, `docs/OPERATIONS.md`, `CHANGELOG.md` [Unreleased]
+
+Decisions made this session:
+  - Adopted the owner-channel ruling as governance hardening (attributed as
+    such — not a product/scope change); scope stays formulation (a)
+  - Checker design: exact anchors for known entries + floor for new entries;
+    anchors are part of the append procedure from now on
+  - Incident disclosure: first checker version had a regex parse error causing
+    a silent exit-0 (checks 3–4 skipped, suite still PASS) — caught by the
+    negative tests themselves, fixed, and structurally prevented via `bash -n`
+
+Risks / open questions:
+  - Anchor table must be updated whenever a P-entry is appended (procedure
+    documented; forgetting it fails the next append’s verification visibly)
+  - Standing lesson: every new check ships with a negative test that proves it
+    can fail
+
+Immediate next step:
+  - Owner decisions unchanged: Q-7 and/or PR #1 merge. Agents: hold — no code.
+
 ### 2026-08-31 22:40 UTC — T-008 closure — handoff
 
 Agent:        Arena Agent (session-scoped; identity irrelevant to the contract)
