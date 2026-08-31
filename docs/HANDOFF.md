@@ -53,6 +53,54 @@ Immediate next step:
 
 ## Latest handoff records
 
+### 2026-08-31 23:59 UTC — T-008 minimal-fix attempt — handoff
+
+Agent:        Arena Agent (session-scoped; identity irrelevant to the contract)
+Branch:       `arena/01a05905-canyou`
+Base commit:  `bad0055` (end of the signature batch)
+Head commit:  the commit carrying this record
+
+Done (state + evidence):
+  - T-008 diagnosis completed — VERIFIED — local `.github/workflows/` absent
+    (only `.github/pending/ci.yml` tracked); staged trigger block valid
+    (`on: push: branches: ["**"]` + `pull_request`); remote: contents API 404,
+    `actions/workflows` total_count 0, `actions/runs` total_count 0;
+    Actions-permissions setting unreadable by this token (403) — noted as
+    untestable agent-side, not needed while zero workflows exist
+  - Minimal fix attempted — REJECTED BY PLATFORM — one commit (`a11ef66`)
+    moving the staged file to `.github/workflows/ci.yml`; push refused
+    verbatim: `refusing to allow a GitHub App to create or update workflow
+    .github/workflows/ci.yml without workflows permission` (second documented
+    occurrence). No workaround attempted (owner ruling). Local commit
+    discarded, staged state restored and verified clean (`git status` 0)
+  - Evidence + backlog updated — this commit: refreshed CI rows (installation
+    NOT INSTALLED with new evidence; execution NOT VERIFIED), T-008 owner
+    options (web UI file creation, or granting the app `workflows`
+    permission), «No workflow runs yet» recorded as evidence of absence
+
+Not done / remaining:
+  - First workflow run — requires an owner action (T-008 options); the moment
+    the file lands on any branch, the `push` trigger fires run #1
+  - Carried: Q-7 (requirements signature), merge of PR #1, Q-2 (stack, after
+    requirements), Q-3 (docs language)
+
+Decisions made this session:
+  - Scope discipline held: the T-008 attempt touched exactly one file (the
+    staged ci.yml move); no PRODUCT/PROPOSALS edits, no scope expansion, no
+    agent-runtime/connector creep
+  - The discarded commit (`a11ef66`) is disclosed here; it was never pushed
+
+Risks / open questions:
+  - If the owner creates the workflow file and runs still do not appear, the
+    next hypothesis is repo-level Actions policy (agent could not read that
+    setting — 403); check Settings → Actions
+  - After activation: remember to delete `.github/pending/ci.yml` and mark
+    T-008 DONE (otherwise `verify_structure.sh` notes the pending state)
+
+Immediate next step:
+  - Owner: activate CI via one of the two T-008 options, then record the first
+    run here. Agents: hold — Q-7 and T-008 are owner-side; no code.
+
 ### 2026-08-31 23:45 UTC — Owner signatures + delegated requirements draft — handoff (incl. history-incident recovery)
 
 Agent:        Arena Agent (session-scoped; identity irrelevant to the contract)
