@@ -122,6 +122,7 @@ v3 = + SaaS + Teams + Monetization + Marketplace
 
 **Source:** advisor-voice message via the owner channel, 2026-08-31. **Explicitly hypothetical framing (verbatim):** «لو كنت أنا مالك Canyou» / «لو كان القرار بيدي الآن» — decision *recommendations*, not an owner signature. Nothing below is executed or binding.
 **Status:** awaiting the owner’s real decisions on the standing gates (Q-7, PR #1 merge, later Q-2).
+**Update 2026-08-31 (advisor ruling, explicitly not an owner signature):** P-3 remains `PROPOSED/UNSIGNED`; recommended disposition — adopt only the non-conflicting subset (system-intelligence thesis; free-first as platform capability; provider-agnostic; least-privilege; GitHub-connector as ADR candidate); provenance/metering fields require signed requirements amendments; the 0–5 phase plan is strategy only; **no PR merge on this basis**. Executive reference stays Q-6 = formulation (a).
 
 ### 1. Recommended dispositions (hypothetical)
 

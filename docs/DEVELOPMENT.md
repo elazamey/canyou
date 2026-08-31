@@ -52,6 +52,22 @@ If the last command does not pass, the checkout contradicts the repository contr
 
 8. **Handoff.** Append a record to `docs/HANDOFF.md` if the session is ending or the task is incomplete.
 
+## Editing append-only records (`AGENTS.md` §4 rule 9)
+
+When inserting a new proposal into `docs/PROPOSALS.md`, a handoff record into `docs/HANDOFF.md`, or content into any governing record:
+
+1. Locate the **end** of the latest existing section and insert **after** it — never select-and-replace an existing heading or block.
+2. Before committing, print the structure and eyeball it:
+   ```bash
+   grep -n '^## \|^### ' docs/PROPOSALS.md   # or docs/HANDOFF.md
+   ```
+   Confirm: the previous section is complete (same subsection count as before your edit) and your section follows it.
+3. Run `bash scripts/verify/verify_records.sh` — it enforces anchors (exact subsection counts for registered entries) plus the floor for new entries.
+4. When appending a **new** P-entry: register its subsection count in the `ANCHORS` table inside `scripts/verify/verify_records.sh` (same commit).
+5. If you discover a loss: restore immediately, and disclose the slip in the handoff record. Never commit over a silent loss.
+
+This procedure exists because insertion-replacement slips happened three times on 2026-08-31 (all caught and fixed pre-commit) — the rule turns that lesson into mechanics.
+
 ## Adding a verification check
 
 1. Create `scripts/verify/verify_<topic>.sh` (it is auto-discovered by `verify.sh`).

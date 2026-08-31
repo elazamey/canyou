@@ -30,6 +30,8 @@ Workflow (target path): `.github/workflows/ci.yml` — **status: NOT INSTALLED**
   - `verify_structure.sh` — required files exist and are non-empty.
   - `verify_content.sh` — governance content rules (state vocabulary, required sections, status-board discipline).
   - `verify_hygiene.sh` — no conflict markers, placeholders, trailing whitespace; final newlines.
+  - `verify_requirements.sh` — requirements provenance (every requirement sourced to signed material; unsigned proposals cannot source requirements).
+  - `verify_records.sh` — append-only record integrity (proposal entry ordering/fields; handoff record completeness).
 - Adding a check: see `docs/DEVELOPMENT.md` → “Adding a verification check”.
 
 ## Releases and versioning

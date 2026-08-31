@@ -93,6 +93,7 @@ Append a handoff record to `docs/HANDOFF.md` (use its template) so any other age
 6. **Do not leave state stale.** Every session ends with `tasks/CURRENT.md` matching reality.
 7. **Do not fake completion.** If the task cannot be finished, write an honest handoff stating exactly what remains.
 8. **Keep governance agent-neutral.** No agent-specific instructions, names, or behavior in `AGENTS.md`, `docs/`, or `tasks/`.
+9. **Protect append-only records when editing.** When inserting into `docs/PROPOSALS.md`, `docs/HANDOFF.md`, or any governing record: prior content must remain intact — the new entry is appended **after** the existing one, never substituted for it. Before committing such an edit, list the section structure (`grep -n '^## \|^### ' <file>`) and confirm the previous section is complete and the new one appended below it. Any discovered loss must be restored and disclosed in the handoff record before committing. `scripts/verify/verify_records.sh` enforces the structural floor (entry ordering, required fields, subsection anchors). *(Instituted 2026-08-31 after three caught-and-fixed insertion-replacement slips; source: owner-channel ruling — governance hardening, not a product/scope change.)*
 
 ## 5. Verification contract
 

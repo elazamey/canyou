@@ -35,6 +35,13 @@ for check in "${script_dir}"/verify_*.sh; do
   echo
   echo "--- Running: $(basename "${check}")"
   echo "--------------------------------------------------------------"
+  # A check with a syntax error can exit 0 silently (bash aborts the compound
+  # and continues); never let that masquerade as a pass. Gate on bash -n first.
+  if ! bash -n "${check}" 2>/dev/null; then
+    echo "FAIL verify: $(basename "${check}") has syntax errors (bash -n)"
+    overall=1
+    continue
+  fi
   if bash "${check}"; then
     echo ">>> $(basename "${check}"): PASS"
   else
