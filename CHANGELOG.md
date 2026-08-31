@@ -12,8 +12,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Agent-ready repository baseline: agent operating contract (`AGENTS.md`), work-state files
   (`tasks/CURRENT.md`, `tasks/BACKLOG.md`), continuation protocol (`docs/HANDOFF.md`),
   governance documentation (`docs/`), and a deterministic verification suite (`scripts/verify/`).
-- Continuous Integration workflow (`.github/workflows/ci.yml`) that runs the verification
-  suite and shellcheck on every push and pull request.
+- CI workflow content (staged at `.github/pending/ci.yml`) that runs the verification
+  suite and shellcheck on push and pull request — activation pending maintainer action (`T-008`).
 - Issue templates and a pull request template that require verification evidence.
 
 ## [0.0.1] — 2026-08-31

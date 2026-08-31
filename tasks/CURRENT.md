@@ -19,7 +19,9 @@
 | Continuation protocol | COMMITTED | `docs/HANDOFF.md` @ `640ac83` |
 | Governance documentation | COMMITTED | `docs/ARCHITECTURE.md`, `docs/DEVELOPMENT.md`, `docs/OPERATIONS.md`, `docs/SECURITY.md` @ `640ac83` |
 | Deterministic verification suite | COMMITTED | `scripts/verify/verify.sh` + 3 checks @ `640ac83` |
-| CI workflow | DOCUMENTED | Content ready: `.github/pending/ci.yml` (T-008); automation tokens cannot create workflow files — activation is a one-step web-UI action by the maintainer |
+| CI workflow contract (what CI must do) | DOCUMENTED | `docs/OPERATIONS.md` §Continuous Integration + `.github/pending/ci.yml` content |
+| CI workflow file | IMPLEMENTED | `.github/pending/ci.yml` @ `640ac83` — staged; activation is maintainer-only (`T-008`) |
+| CI execution on GitHub | DOCUMENTED | Expectation only — **NOT VERIFIED**: zero runs exist. Evidence: `gh pr checks 1` → “no checks reported” (2026-08-31). Raise to `VERIFIED` only with a green run link |
 | Collaboration templates | COMMITTED | `.github/ISSUE_TEMPLATE/`, `.github/pull_request_template.md` @ `640ac83` |
 | Repository meta files | COMMITTED | `README.md`, `CONTRIBUTING.md`, `CHANGELOG.md`, `LICENSE`, `.editorconfig`, `.gitignore` @ `640ac83` |
 

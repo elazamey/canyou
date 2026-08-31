@@ -93,7 +93,7 @@ Append a handoff record to `docs/HANDOFF.md` (use its template) so any other age
 
 ## 5. Verification contract
 
-- `scripts/verify/verify.sh` is the single deterministic entry point; CI (`.github/workflows/ci.yml`) runs it on every push and pull request.
+- `scripts/verify/verify.sh` is the single deterministic entry point; once activated (`.github/workflows/ci.yml`, staged pending `T-008` — see `docs/OPERATIONS.md`), CI runs it on every push and pull request. Until activation, the accepted verification evidence in pull requests is the locally captured command + output.
 - Checks are plain `bash` + coreutils, require no network, and exit non-zero on any failure.
 - A red CI means the repository state contradicts its contract. Fixing it takes precedence over new work.
 

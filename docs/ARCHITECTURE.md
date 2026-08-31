@@ -50,7 +50,7 @@ The governance layer turns agent work into auditable repository state:
 | Work queue | `tasks/BACKLOG.md` | Planned, unstarted work | see `tasks/CURRENT.md` |
 | Continuation protocol | `docs/HANDOFF.md` | Handoff records any agent can resume from | see `tasks/CURRENT.md` |
 | Verification suite | `scripts/verify/` | Deterministic checks; single entry point `verify.sh` | see `tasks/CURRENT.md` |
-| CI | `.github/workflows/ci.yml` | Runs verification + shellcheck on push/PR | see `tasks/CURRENT.md` |
+| CI | `.github/pending/ci.yml` (staged — activation `T-008`) | Will run verification + shellcheck on push/PR once activated | see `tasks/CURRENT.md` |
 | Collaboration interfaces | `.github/ISSUE_TEMPLATE/`, `.github/pull_request_template.md` | Force scope + evidence at intake | see `tasks/CURRENT.md` |
 
 The component table intentionally does **not** repeat states inline; `tasks/CURRENT.md` is the only place where states live, so there is exactly one state to keep truthful.

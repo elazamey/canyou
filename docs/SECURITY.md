@@ -30,4 +30,4 @@ This repository has **no runtime dependencies and no application code** — only
 
 ## Scope of this page
 
-This page documents policy only (`DOCUMENTED`). Its enforcement points are: `AGENTS.md` (hard rules), `.github/workflows/ci.yml` (gate), and `.gitignore` (secret-shaped files). Anything not listed there is not enforced — treat it as intention, not mechanism.
+This page documents policy only (`DOCUMENTED`). Its enforcement points are: `AGENTS.md` (hard rules), the CI gate (`.github/workflows/ci.yml` once activated per `T-008`; until then the gate is `scripts/verify/verify.sh` evidence attached to pull requests), and `.gitignore` (secret-shaped files). Anything not listed there is not enforced — treat it as intention, not mechanism.
