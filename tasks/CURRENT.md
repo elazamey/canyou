@@ -35,6 +35,8 @@
 - **Push constraint (evidence):** `git push` of a commit containing `.github/workflows/ci.yml` was rejected by GitHub — `refusing to allow a GitHub App to create or update workflow .github/workflows/ci.yml without workflows permission`. Hence the staged-pending design and task `T-008`.
 - **CI EXECUTION = NOT VERIFIED (audit, 2026-08-31):** `gh pr checks 1` → “no checks reported on the ‘arena/01a05905-canyou’ branch”. No CI run has ever executed in this repository; any CI claim above `DOCUMENTED` (contract) / `PREPARED` (content) is forbidden until a green run link is recorded here.
 - **PR #1 scope audit (2026-08-31):** `git diff --name-only origin/main...HEAD` lists 23 governance files (markdown / yaml / bash / config) — zero application code, `main` still at `e0b7fcf` (verified via `git fetch` + `git log origin/main`).
+- **CI WORKFLOW = NOT INSTALLED (evidence, 2026-08-31):** `git ls-files .github/workflows/` → empty output; `test ! -e .github/workflows/ci.yml` → true. The workflow content is PREPARED at `.github/pending/ci.yml` (tracked, verified via `git ls-files .github/pending/`).
+- **State-vocabulary checker hardened + negative-tested (2026-08-31, on `1f9eb6c` tree):** `verify_content.sh` now validates the Status Board state cell by exact token (a negation can no longer satisfy a positive state via substring). Negative test: injecting the bogus token `STAGED-READY` made `verify_content.sh` FAIL (exit 1) naming the exact row; restoring the file made the full suite PASS again.
 
 ## Open Questions
 

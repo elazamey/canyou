@@ -53,6 +53,51 @@ Immediate next step:
 
 ## Latest handoff records
 
+### 2026-08-31 20:45 UTC — T-000 — terminology refinement handoff
+
+Agent:        Arena Agent (session-scoped; identity irrelevant to the contract)
+Branch:       `arena/01a05905-canyou`
+Base commit:  `73f8032` (state after the audit handoff)
+Head commit:  `1f9eb6c` (vocabulary refinement) + the commit carrying this record
+
+Done (state + evidence):
+  - State vocabulary refined — COMMITTED — `1f9eb6c`: new `PREPARED` state
+    (content not at its operational location); `IMPLEMENTED` tightened to
+    require the operational location; `NOT INSTALLED` / `NOT VERIFIED`
+    negations made first-class; rule added that a negation never satisfies
+    its positive state (`AGENTS.md` §2, mirrored in `README.md`)
+  - CI claims re-split to the precise model — COMMITTED — `tasks/CURRENT.md`:
+    contract DOCUMENTED / content PREPARED / installation NOT INSTALLED
+    (evidence: `git ls-files .github/workflows/` empty) / execution NOT
+    VERIFIED (evidence: `gh pr checks 1` → “no checks reported”)
+  - Checker hardened — VERIFIED — `verify_content.sh` validates exact state
+    tokens; negative test passed (bogus `STAGED-READY` → FAIL naming the row;
+    restore → full suite PASS; recorded in Verified Facts)
+
+Not done / remaining (all maintainer-side; unchanged):
+  - CI activation (`T-008`) → then record first green run link and raise
+    CI installation/execution states with evidence
+  - Merge of PR #1 into `main`
+  - Q-1 (purpose of `canyou`) — blocks `T-001`/`T-002` and all application code
+
+Decisions made this session:
+  - Adopted the reviewer's terminology correction: the earlier PR-comment
+    table row “CI FILE = IMPLEMENTED” is superseded by “CI WORKFLOW CONTENT =
+    PREPARED / CI WORKFLOW = NOT INSTALLED”; a correction comment follows in
+    PR #1 (corrections are appended, history is not edited)
+  - An editing mistake in `tasks/CURRENT.md` (an unintended intermediate line)
+    was immediately reverted before committing; working tree verified clean
+    against `1f9eb6c` via `git diff` (empty)
+
+Risks / open questions:
+  - Status Board rows must now use exact state tokens (checker-enforced);
+    free-text states will fail verification by design
+  - Q-1/Q-2/Q-3 in `tasks/CURRENT.md` remain open for the maintainer
+
+Immediate next step:
+  - Maintainer only: activate CI (T-008), merge PR #1, answer Q-1. Agents:
+    stop — no T-001, no stack, no application code before the purpose exists.
+
 ### 2026-08-31 20:10 UTC — T-000 — audit handoff (phase close-out)
 
 Agent:        Arena Agent (session-scoped; identity irrelevant to the contract)
