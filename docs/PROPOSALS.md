@@ -118,3 +118,38 @@ v3 = + SaaS + Teams + Monetization + Marketplace
 
 “Canyou Competitive Architecture” document. Note: under `AGENTS.md` §2 this derives from **signed** constraints/requirements — it cannot be produced from conversation material until Q-5/Q-6 (and then T-009/T-010) are settled.
 
+## P-3 — 2026-08-31 — Hypothetical owner-decision package — `PROPOSED` / `UNSIGNED`
+
+**Source:** advisor-voice message via the owner channel, 2026-08-31. **Explicitly hypothetical framing (verbatim):** «لو كنت أنا مالك Canyou» / «لو كان القرار بيدي الآن» — decision *recommendations*, not an owner signature. Nothing below is executed or binding.
+**Status:** awaiting the owner’s real decisions on the standing gates (Q-7, PR #1 merge, later Q-2).
+
+### 1. Recommended dispositions (hypothetical)
+
+Q-5/Q-6 restated as already signed (no change). Q-7: sign after review. PR #1: merge. Q-2 preference rule (verbatim): «TypeScript إذا كان الـrepo الحالي TypeScript؛ وإلا Python للـruntime المستقل» — note: the repository currently contains **no application code in any language**, so under that rule the pointer would be Python; entirely unsigned.
+
+### 2. Restated non-negotiable principles (subset of the signed CONSTRAINTS; one reframe)
+
+The 7-rule list repeats signed material. **Reframe worth noting (verbatim):** «لا أجعل "مجاني" وعدًا مطلقًا تجاه خدمات خارجية قد تغيّر شروطها؛ بل أجعل Canyou نفسه قادرًا على العمل بدون خدمة مدفوعة إلزامية» — a narrower, more defensible reading of FREE-FIRST (platform capability, not a promise about third parties). Candidate refinement of `docs/CONSTRAINTS.md` if signed.
+
+### 3. Phase plan (0–5) — candidate roadmap
+
+PHASE 0 Governance+CI (done) → PHASE 1 Tool Registry + Policy Gate + GitHub Connector («first real Agent execution») → PHASE 2 Ledger + Provenance + Memory + Verification → PHASE 3 Vercel/Cloudflare + Model Router → PHASE 4 Multi-agent + Handoff → PHASE 5 Monetization/Teams/Marketplace. Consistent with P-2 §6 ordering; still unsigned.
+
+### 4. Nominations and designs (candidates, unsigned)
+
+- **GitHub as the first connector** — rationale: exercises Read/Write/Branch/Commit/PR/Permission/Audit/Error-handling. Input for ADR-001 (`T-010`), not a requirement (R-3 deliberately names no provider).
+- **Chain contract** Agent → Tool Registry → Policy Gate → Connector Runtime → Provider API → Evidence; agent never sees secrets (`github.create_pull_request` instead of handing over `GITHUB_TOKEN`). Already the signed shape (R-2/R-4, CONSTRAINTS area 6) — restated.
+- **Risk taxonomy per tool** (github.read_file LOW … merge_pr HIGH, delete_repo BLOCKED) — candidate Policy Gate design for `T-010`.
+- **Provenance fields from day one:** execution_id, agent_id, tool_id, timestamp, input_hash, output_hash, artifact_hash, policy_decision.
+- **Commercial architecture from day one:** Usage Meter, Entitlements, Plans, Limits, Tenant ID (payment excluded from MVP).
+- **Model Router only, no model building** — restates signed area 1; Runtime stays model-agnostic.
+- **Competition framing** («أول انتصار حقيقي… Agent نفّذ عملية حقيقية على GitHub تحت Policy وسجّل الدليل كاملًا») and the Practical Agent Quality formula — strategy context, unsigned.
+
+### 5. ⚠️ Tensions with signed records (must be reconciled if ever signed)
+
+1. **Provenance fields (§4) vs R-5:** the signed-scope Requirements draft deliberately keeps a *minimal* Gate decision record and excludes an Execution Ledger component (owner’s own Q-6 anti-scope-creep ruling). Adopting §4’s field set in Phase 1 would expand R-5 — requires a signed requirements amendment, not silent adoption.
+2. **Usage Meter/Entitlements/Tenant ID (§4) vs R-7 and CONSTRAINTS §Applying:** monetization/metering is an explicit Phase-1 **non-goal**; the binding obligation is “not precluded”, not “built”. Building it now would amend R-7.
+3. **GitHub Connector (§4) vs R-3:** requirements name no provider by design; the nomination belongs in ADR-001 after Q-7.
+
+These tensions are exactly why intake ≠ promotion: each adoption path runs through the pipeline (Requirements → Architecture → Stack → Tasks).
+
