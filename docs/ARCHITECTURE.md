@@ -6,7 +6,7 @@
 
 **This repository contains no application code.** It currently implements exactly one layer: the **agent governance layer** — the agent-ready baseline that makes the repository itself the carrier of work state, evidence, and continuation across agents.
 
-No product purpose and no application stack have been chosen yet. When that decision is made, it will be recorded here as an architecture decision and mirrored in `tasks/CURRENT.md` and `tasks/BACKLOG.md`. Until then, no agent may assume a stack.
+No product purpose was recorded until 2026-08-31, when the owner signed the Product Definition (`docs/PRODUCT.md`) and then the Requirements (`docs/REQUIREMENTS.md`) with the OWNER DIRECTIVE; the stack is now decided (ADR-0001). **The repository still contains no application code** — implementation starts under directive §4-D only.
 
 ## Layer 1 — Governance layer (`IMPLEMENTED`)
 
@@ -62,13 +62,11 @@ The component table intentionally does **not** repeat states inline; `tasks/CURR
 3. **Fail closed:** missing files, stale headings, or an unstatesed status row must fail verification, not pass silently.
 4. **Agent-neutral:** governance files never reference a specific agent product or grant it special behavior.
 
-## Layer 2 — Application layer (`DOCUMENTED` only — does not exist)
+## Layer 2 — Application layer (DEFINED — architecture accepted, code NOT STARTED)
 
-Intentionally empty. Filling it requires:
+Defined by **ADR-0001** (`docs/decisions/ADR-0001-phase1-runtime-and-stack.md`, ACCEPTED 2026-08-31 per OWNER DIRECTIVE §4-C): Python 3.11+, stdlib-only, layout `src/canyou/` (registry / policy / connectors + GitHub adapter / evidence / runtime), tests under `tests/`, CI gating via a `verify_slice.sh` check inside the existing suite (no workflow edits needed). The chain is fixed by the signed requirements + directive §7: Agent → Tool Registry → Policy Gate → Connector Runtime → GitHub API → Evidence; default DENY; destructive ops BLOCKED by default; per-operation TraceRecord (§8).
 
-1. `T-001` — define the product purpose (maintainer decision),
-2. `T-002` — choose the stack and record the decision here,
-3. then implementation tasks in `tasks/BACKLOG.md`, each with its own verification commands.
+**Status: architecture COMMITTED (ADR-0001); implementation (T-011) NOT STARTED** — it begins only under OWNER DIRECTIVE §4-D with tests, permission boundaries, and evidence per execution.
 
 ## Extension rules
 
