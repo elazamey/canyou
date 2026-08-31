@@ -52,3 +52,67 @@ The **signed** definition (`docs/PRODUCT.md`, owner, 2026-08-31) fixes the first
 ### 5. Proposed framing
 
 "Governed Connector Framework": Canyou Agent → Tool Registry → Policy Gate → Connector Runtime → GitHub/Vercel/Cloudflare/… → Evidence → Provenance Ledger. The connector is explicitly **not** a bare API wrapper and holds no authority (policy precedes execution).
+
+## P-2 — 2026-08-31 — Strategic positioning package — `PROPOSED` / `UNSIGNED`
+
+**Source:** advisor-voice message conveyed through the owner channel, 2026-08-31 (verbatim markers: «حكمي النهائي», «أرى», «في رأيي»).
+**Status:** awaiting owner decisions (carried Q-5/Q-6/Q-4 in `tasks/CURRENT.md`).
+**Relationship to P-1:** elaborates P-1 constraints (provider-agnostic, no model training) into a competitive thesis; introduces a version roadmap whose `v0` is a **third formulation of the Phase-1 scope** (see §6 warning).
+
+### 1. Core thesis (verbatim)
+
+> «لا تنافسهم في "ذكاء النموذج" فقط؛ نافسهم في "ذكاء النظام الذي يستخدم النموذج".»
+
+Closing framing (verbatim):
+
+```text
+Claude  = Intelligence Engine
+Manus   = Agent Product
+Canyou  = Governed Agent Operating Platform
+```
+
+Goal statement (verbatim): «اجعل Canyou ينفّذ المهمة بصورة أكثر موثوقية، قابلية للتحقق، أمانًا، قابلية للامتداد، وأقل اعتمادًا على مزود واحد.»
+
+### 2. Explicit non-goal
+
+No competition on model intelligence / model size / general capability (consistent with P-1 §1 “NO MODEL TRAINING”). Realistic claim: Canyou can beat them **in specific bounded use-cases** (e.g., full software-project management idea → PR → deployment with evidence ledger, permission constraints, provenance), judged on *system outcome*, not model IQ.
+
+### 3. Differentiation areas (summarized from the proposer’s table)
+
+Real competitive fields: long-task execution, provenance (as a core feature, not theirs), governance, multi-provider AI, unified GitHub/deploy workflow, tailored memory, human+agent handoff, free/no-card, self-host/local, ownership evidence. Fields explicitly conceded: model size, reasoning strength.
+
+### 4. Distributed intelligence (proposed architecture principle)
+
+```text
+Goal → Planner → Model Router → Specialist Agents → Tool Registry → Policy Gate
+→ Execution → Verification → Evidence → Provenance → Handoff
+```
+
+Step-level model selection (“ما النموذج الأنسب لهذه الخطوة؟” — Planning→A, Coding→B, Summarization→C, Vision→D, Local/private→E). Capability formula (verbatim):
+
+```text
+Effective Agent Capability = Model Intelligence × Tools × Context × Memory ×
+Orchestration × Verification × Permissions × Persistence
+```
+
+### 5. Candidate identity statement (verbatim — refinement candidate only)
+
+> «Canyou ليس Chatbot. Canyou هو Operating System لوكلاء AI يعملون تحت سيطرة الإنسان، ويتركون سجلًا قابلاً للتحقق لكل ما فعلوا.»
+
+Consistent with the signed definition (`docs/PRODUCT.md`); recorded here as an unsigned refinement candidate.
+
+### 6. Version roadmap (verbatim) — ⚠️ third Phase-1 scope formulation
+
+```text
+v0 = Agent Runtime + Tool Registry + Policy Gate + 1 Connector + Execution Ledger
+v1 = + GitHub + Vercel + Memory + Verification
+v2 = + Multi-agent + Provenance + Handoff + Model Router
+v3 = + SaaS + Teams + Monetization + Marketplace
+```
+
+**Warning:** `v0` differs from both the **signed** Phase-1 scope («Tool Registry + Policy Gate + Connector واحد», `docs/PRODUCT.md`) and the P-1 §4 superset (which adds Connector Interface, GitHub Connector, Security Boundary but not an explicit Agent Runtime). Three formulations now exist; exactly one can be current — resolving this is the owner’s Q-6 decision, recorded as an amendment in `docs/PRODUCT.md`.
+
+### 7. Proposed next step (pipeline-gated)
+
+“Canyou Competitive Architecture” document. Note: under `AGENTS.md` §2 this derives from **signed** constraints/requirements — it cannot be produced from conversation material until Q-5/Q-6 (and then T-009/T-010) are settled.
+
