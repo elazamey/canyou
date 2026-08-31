@@ -53,6 +53,42 @@ Immediate next step:
 
 ## Latest handoff records
 
+### 2026-08-31 22:40 UTC — T-008 closure — handoff
+
+Agent:        Arena Agent (session-scoped; identity irrelevant to the contract)
+Branch:       `arena/01a05905-canyou`
+Base commit:  `df777a3` (green fix)
+Head commit:  `11178c5` (pending-file deletion) + the commit carrying this record
+
+Done (state + evidence):
+  - Deletion commit — COMMITTED — `11178c5`: removed `.github/pending/ci.yml` only,
+    after proving content byte-identical to the installed workflow
+  - Post-deletion runs verified green — VERIFIED — push `33445781317` and
+    pull_request `33445786957`: `verify` + `shellcheck` both success
+  - Evidence recorded + T-008 closed — COMMITTED — this commit: Verified Facts
+    carries the full chain (failed `33444779038`/`33444779369` → SC2164 → fix
+    `df777a3` → green `33445296608`/`33445301389` → deletion `11178c5` →
+    green `33445781317`/`33445786957`); Status Board: installation
+    IMPLEMENTED, execution VERIFIED; backlog T-008 DONE
+
+Not done / remaining:
+  - Q-7: owner signature on `docs/REQUIREMENTS.md` (unblocks T-010)
+  - Merge of PR #1 (CI now live and green)
+  - Q-2 (stack, after requirements), Q-3 (docs language); T-011 still BLOCKED
+
+Decisions made this session:
+  - Followed the owner’s closure sequence verbatim; no file touched beyond
+    the authorized set (deletion + `tasks/CURRENT.md`, `tasks/BACKLOG.md`,
+    this record)
+
+Known follow-ups (flagged, NOT executed — outside the authorized set):
+  - `AGENTS.md` §5 and `docs/OPERATIONS.md` still phrase CI conditionally
+    (“once activated / T-008”); `CHANGELOG.md` [Unreleased] still says
+    “activation pending”. Now stale — update in a future authorized commit.
+
+Immediate next step:
+  - Owner: sign Q-7 and/or merge PR #1. Agents: hold — no code.
+
 ### 2026-08-31 23:59 UTC — T-008 minimal-fix attempt — handoff
 
 Agent:        Arena Agent (session-scoped; identity irrelevant to the contract)
