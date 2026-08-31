@@ -2,7 +2,7 @@
 
 **canyou** is an **Agent-Ready Repository**: a baseline where the repository itself — not any agent's memory or any chat history — is the single source of truth for work state, evidence, and continuation. Any agent (Arena, Claude Code, Codex, Cursor, …) or human can open it and know exactly: *what happened, what remains, and what is the proof.*
 
-> **Current status:** governance layer only. No product purpose or application stack has been chosen yet — see `tasks/CURRENT.md` (status board) and `tasks/BACKLOG.md` (what is planned). Documentation here never counts as proof of implementation.
+> **Current status:** governance layer complete + **signed Product Definition** (`docs/PRODUCT.md`). First implementation phase scoped to a thin slice (Tool Registry + Policy Gate + one Connector); **no application code exists yet** — see `tasks/CURRENT.md`. Documentation here never counts as proof of implementation.
 
 ## How it works
 

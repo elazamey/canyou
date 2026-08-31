@@ -29,7 +29,8 @@ Rules:
 - **Documentation is never proof of implementation.** A feature described in `README.md` or `docs/ARCHITECTURE.md` may not exist in code at all. Always check the files.
 - `VERIFIED` requires a reproducible command, not an assertion or an impression.
 - States may only be raised with new evidence, and must be lowered when evidence turns out to be stale.
-- **A negation never satisfies a positive state.** The status board may record absence first-class using `NOT INSTALLED` / `NOT VERIFIED`; these never count as their positive counterparts (`NOT VERIFIED` is not `VERIFIED`; `PREPARED` is not `IMPLEMENTED`).
+- **A negation never satisfies a positive state.** The status board may record absence first-class using `NOT INSTALLED` / `NOT VERIFIED` / `NOT STARTED` / `BLOCKED`; these never count as their positive counterparts (`NOT VERIFIED` is not `VERIFIED`; `PREPARED` is not `IMPLEMENTED`).
+- **Requirement provenance (source: owner, 2026-08-31):** no requirement without an owner/source; no implementation without a requirement; no `VERIFIED` without evidence. Work enters this repository only through the pipeline **Product Definition → Requirements → Architecture → Stack → Tasks → Implementation → Verification → Evidence → Commit → Handoff** (authoritative record: `docs/PRODUCT.md`). Conversation content is never, by itself, a requirement.
 
 ## 3. Work lifecycle — mandatory order
 
@@ -113,4 +114,4 @@ Append a handoff record to `docs/HANDOFF.md` (use its template) so any other age
 
 ## 7. Current reality check
 
-This repository currently contains **only the agent governance layer**. No product purpose, application stack, or application code has been chosen yet. Do not assume one. Check `tasks/CURRENT.md` and `tasks/BACKLOG.md` for what is actually being worked on.
+The product is **defined** in `docs/PRODUCT.md` (signed 2026-08-31): canyou is an Agent Operating Platform, and the first execution phase is a thin slice — Tool Registry + Policy Gate + one Connector. As of now **only the governance layer exists; there is no application code.** Implementation is blocked until the Requirements (`T-009`), Architecture (`T-010`), and Stack (`T-002`, owner decision) tasks are complete. Do not assume a stack, and do not implement anything before those tasks are done.

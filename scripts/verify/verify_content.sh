@@ -60,7 +60,7 @@ bad_rows="$(awk -F'|' '
   $0 !~ /^\|[[:space:]]*Item/ {
     state = $3
     gsub(/^[[:space:]]+|[[:space:]]+$/, "", state)
-    if (state !~ /^(DOCUMENTED|PREPARED|IMPLEMENTED|VERIFIED|COMMITTED|HANDOFF_READY|NOT INSTALLED|NOT VERIFIED)$/) print
+    if (state !~ /^(DOCUMENTED|PREPARED|IMPLEMENTED|VERIFIED|COMMITTED|HANDOFF_READY|NOT INSTALLED|NOT VERIFIED|NOT STARTED|BLOCKED)$/) print
   }
 ' tasks/CURRENT.md)"
 if [[ -z "${bad_rows}" ]]; then
