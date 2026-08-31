@@ -53,6 +53,54 @@ Immediate next step:
 
 ## Latest handoff records
 
+### 2026-08-31 23:40 UTC — OWNER DIRECTIVE Steps A/B/C — handoff
+
+Agent:        Arena Agent (session-scoped; identity irrelevant to the contract)
+Branch:       `arena/01a05905-canyou`
+Base commit:  `6b65726` (pre-directive state)
+Head commit:  `42d2ad5` (A: signature) + `b3b7707` (B: merge on main) + the C commits carrying ADR-0001 and this record
+
+Done (state + evidence):
+  - Step A — Q-7 executed — COMMITTED `42d2ad5`: REQUIREMENTS DRAFT→SIGNED
+    (signature block filled; directive addendum §6/§7/§8/§9 appended; R-1..R-7
+    untouched, structure-compared before commit); decision rows appended to
+    CONSTRAINTS.md; T-009 DONE; CI green on `42d2ad5` (`33448174192`, `33448178872`)
+  - Step B — PR #1 merged (owner-approved) — VERIFIED: checks green pre-merge;
+    `main` head `b3b7707`; signed REQUIREMENTS confirmed on main via
+    `git show origin/main:`; tree parity 29=29; first green run on main
+    `33448223166`; session branch preserved
+  - Step C — ADR-0001 ACCEPTED — COMMITTED: Python 3.11+/stdlib-only,
+    layout `src/canyou/`, `verify_slice.sh` CI gating (no workflow edits),
+    security shape (default-DENY, destructive BLOCKED), TraceRecord (§8),
+    alternatives TS/Go/Rust documented; T-002/T-004/T-010 DONE;
+    `verify_adr.sh` added + negative-tested (DRAFT-tamper → FAIL; restored → PASS)
+
+Not done / remaining:
+  - Step D (directive §4-D) — AUTHORIZED, not started: minimal vertical slice
+    (registry, policy, connector interface, GitHub adapter, evidence, runtime,
+    tests, permission boundaries, `verify_slice.sh` with negative test)
+  - After D: PR #2 to `main`; optional branch protection (`T-003`, owner)
+  - Standing: P-3 unsigned; §5 exclusions; Q-3 (docs language)
+
+Decisions made this session:
+  - Merge method: merge commit (preserves the evidence chain; no squash)
+  - ADR-0001 stack rationale is requirements-driven (R-6 offline/free +
+    workflows-permission constraint + provider-abstraction deferral), TS-first
+    rule inapplicable (no existing TS code)
+  - CI gating of future Python tests flows through `verify.sh` (bash entry
+    point unchanged) — avoids the workflows-permission wall entirely
+
+Risks / open questions:
+  - Stdlib `urllib` for GitHub is low-level: contained behind the connector
+    adapter; third-party libs only via a future ADR
+  - Recurring agent slip disclosed: `edit_file` calls missing the `path`
+    parameter (4 occurrences this session, all caught by validation and
+    retried) — no repository impact, but logged here for pattern honesty
+
+Immediate next step:
+  - Step D: implement the minimal vertical slice per directive §4-D, with
+    tests + permission boundaries + evidence, gated by `verify_slice.sh`.
+
 ### 2026-08-31 23:15 UTC — Record-integrity hardening — handoff
 
 Agent:        Arena Agent (session-scoped; identity irrelevant to the contract)

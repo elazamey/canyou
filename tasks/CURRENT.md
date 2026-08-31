@@ -7,7 +7,7 @@
 
 ## Active Task
 
-**OWNER DIRECTIVE execution (2026-08-31) — sequential Steps A→D.** Step A (Q-7): **EXECUTED** — `docs/REQUIREMENTS.md` SIGNED (binding) with the directive addendum (§6 security contract, §7 connector contract + GitHub as first connector, §8 traceability fields, §9 free-first); decision rows appended to `docs/CONSTRAINTS.md`; P-3 confirmed PROPOSED/UNSIGNED. Step B (PR #1 merge, approved): executing next. Step C (T-010 ADR + stack per directive criteria): follows B. Step D (minimal vertical slice): only after the ADR is fixed.
+**OWNER DIRECTIVE execution (2026-08-31) — Steps A/B/C EXECUTED; Step D next.** A: Requirements SIGNED (`42d2ad5`). B: PR #1 merged — `main` @ `b3b7707`, first green run on main `33448223166`. C: ADR-0001 ACCEPTED (stack: Python 3.11+ stdlib-only; layout; security/traceability shapes; alternatives documented) — T-002/T-004/T-010 DONE. **Step D (§4-D): minimal vertical slice — AUTHORIZED and next** (Registry + Gate + Connector Interface + GitHub Connector + tests/permission boundaries + per-execution evidence; §5 exclusions binding; §12 stop-rules active).
 
 ## Status Board
 
@@ -25,16 +25,17 @@
 | Repository meta files | COMMITTED | `README.md`, `CONTRIBUTING.md`, `CHANGELOG.md`, `LICENSE`, `.editorconfig`, `.gitignore` @ `640ac83` |
 | **Product Definition record** | COMMITTED | `docs/PRODUCT.md` @ `cbd1887` — signed owner definition, verbatim, with source and date |
 | **Derivation rules + pipeline enshrined** | COMMITTED | `AGENTS.md` §2 + §7, `README.md` status @ `cbd1887`; source: owner, 2026-08-31 |
-| **Requirements record (T-009)** | COMMITTED | `docs/REQUIREMENTS.md` @ this commit — **SIGNED** via OWNER DIRECTIVE Q-7 (2026-08-31); directive addendum (§6–§9) appended; R-1..R-7 unchanged |
+| **Requirements record (T-009)** | COMMITTED | `docs/REQUIREMENTS.md` @ `42d2ad5` — **SIGNED** via OWNER DIRECTIVE Q-7 (2026-08-31); directive addendum (§6–§9) appended; R-1..R-7 unchanged |
+| **PR #1 merge (Step B)** | COMMITTED | Merge commit `b3b7707` on `main` (owner-approved); pre-merge checks green (`33448178872`); first green CI run on main: `33448223166`; trees identical (29 = 29 files) |
 | **Binding constraints record (Q-5)** | COMMITTED | `docs/CONSTRAINTS.md` @ `09017cd` — nine rules + six areas signed in full; verbatim owner decision record |
 | **Requirements provenance checker** | COMMITTED | `scripts/verify/verify_requirements.sh` @ `09017cd` — no requirement without a valid signed source |
 | **Constraints package P-1** | COMMITTED | `docs/PROPOSALS.md` §P-1 @ `c9ad259` — intake record; **signed in full by the owner (Q-5, 2026-08-31)** → binding text promoted to `docs/CONSTRAINTS.md` |
 | **Strategic positioning package P-2** | COMMITTED | `docs/PROPOSALS.md` §P-2 @ `2f8f682` — UNSIGNED proposal (competitive thesis, non-goals, distributed intelligence, candidate identity statement, v0–v3 roadmap); governs nothing until owner signs |
 | **Hypothetical decision package P-3** | COMMITTED | `docs/PROPOSALS.md` §P-3 @ `548d2c5` — UNSIGNED hypothetical; advisor ruling appended (adopt non-conflicting subset only; no PR merge on this basis); nothing executed |
 | **Record-integrity rule + checker (AGENTS.md §4.9)** | IMPLEMENTED | `AGENTS.md` §4.9 + `docs/DEVELOPMENT.md` procedure + `scripts/verify/verify_records.sh` + `bash -n` gate in `verify.sh` (this commit series) |
-| **Architecture (thin slice)** | NOT STARTED | Blocked by T-009 owner signature (`T-010`; scope formulation (a) reaffirmed — Q-6) |
-| **Stack decision** | NOT STARTED | Owner decision (`T-002`), explicitly deferred until requirements are signed (Q-2, 2026-08-31) |
-| **Thin-slice implementation (T-011)** | BLOCKED | Requires signed Requirements (T-009) + Architecture (T-010) + Stack (T-002); no application code may exist before that |
+| **ADR-0001 (architecture + stack)** | COMMITTED | `docs/decisions/ADR-0001-phase1-runtime-and-stack.md` @ this commit — ACCEPTED per directive §4-C: Python 3.11+, stdlib-only, `src/canyou/` layout, `verify_slice.sh` CI gating without workflow edits; alternatives (TS/Go/Rust) evaluated and documented |
+| **Stack decision (Q-2)** | COMMITTED | Concluded in ADR-0001 (directive §4-C criteria: requirements-driven, cost, free operability, security, scalability) |
+| **Thin-slice implementation (T-011)** | NOT STARTED | AUTHORIZED (directive §4-D; ADR fixed) — next step: minimal slice with tests, permission boundaries, per-execution evidence |
 
 ## Verified Facts
 
@@ -61,12 +62,14 @@
 - **Record-integrity rule instituted; checker proven by three negative tests (2026-08-31):** `AGENTS.md` §4.9 (append-only editing rule) + `docs/DEVELOPMENT.md` procedure + `verify_records.sh` (ordering/uniqueness, Source/Status, subsection anchors P-1=5/P-2=7/P-3=5, handoff field completeness) + `bash -n` syntax gate in `verify.sh`. Negative tests, each with tamper proof: (A) stripping a required field from the top handoff record → FAIL naming the exact record; (B) deleting one P-1 subsection → FAIL “P-1 has 4 subsections, anchor expects 5”; (C) injected unterminated-quote syntax error → suite FAIL via the `bash -n` gate. shellcheck 0.11.0 clean on all scripts; suite `RESULT: PASS — 5 check group(s)`.
 - **Defect found & fixed during hardening — vacuous checker (2026-08-31, disclosed):** the first version of `verify_records.sh` contained a regex parsing error (`\ ` inside `[[ =~ ]]`) that made bash abort the script silently with **exit 0** — checks 3–4 never ran while the suite reported PASS. The first negative-test round exposed it (both tamper tests wrongly passed); fixed by glob-based parsing, and the new `bash -n` gate makes this defect class impossible to hide in future. Lesson recorded: a check that cannot fail is not a check — every new check ships with a passing negative test.
 - **OWNER DIRECTIVE received + Step A executed (2026-08-31, 22:50 UTC):** pre-state evidence captured (tree clean, HEAD `6b65726`, suite `PASS — 5 check group(s)`, PR #1 OPEN @ `6b65726`). Q-7 applied: `docs/REQUIREMENTS.md` status → SIGNED, signature block filled (elazamey/sayed_elazamy via directive), directive addendum appended (§6/§7/§8/§9); decision rows (Q-7, PR #1 approval, slice composition, P-3 unsigned) appended to `docs/CONSTRAINTS.md`; T-009 → DONE. Structure check before commit: REQUIREMENTS headings before/after compared — no existing section replaced (addendum inserted before the signature block; R-1..R-7 untouched).
+- **Step B executed — PR #1 merged (2026-08-31):** identity verified (PR #1, `arena/01a05905-canyou` @ `42d2ad5` → `main`); checks green pre-merge (Repository verification: pass; Shellcheck: pass — run `33448178872`); merged with a merge commit (branch preserved): `main` head = `b3b7707` «Merge pull request #1». Post-merge verification: `git show origin/main:docs/REQUIREMENTS.md` contains the SIGNED status + owner signature; tree parity 29 = 29 files; **first green CI run on `main`**: `33448223166` (push, `b3b7707`, success) — https://github.com/elazamey/canyou/actions/runs/33448223166. Step A runs: `33448174192` (push) + `33448178872` (PR) — success.
+- **Step C executed — ADR-0001 accepted (2026-08-31):** `docs/decisions/ADR-0001-phase1-runtime-and-stack.md` — evaluation per directive §4-C criteria against the signed requirements (not preference): **Python 3.11+, stdlib-only** (zero runtime deps; GitHub via `urllib`; tests via `unittest`); layout `src/canyou/`; CI gating via `verify_slice.sh` inside `verify.sh` (no workflow edits — respects the documented workflows-permission constraint); default-DENY + destructive-ops-BLOCKED security shape (§6); TraceRecord fields (§8); alternatives TS/Go/Rust documented with reasons (TS-first rule inapplicable — no existing TS code). `verify_adr.sh` added and **negative-tested** (Status→DRAFT tamper proofed → FAIL naming the file; restored → PASS). Suite after Step C: see Step C commit message and the next Verified Facts entry for the run on this tree.
 - **Phase-1 opening verified (2026-08-31, on `cbd1887` tree):** `bash scripts/verify/verify.sh` → `RESULT: PASS — 3 check group(s)`, exit 0 — including the extended exact-token vocabulary (`NOT STARTED`, `BLOCKED`) now enforced by `verify_content.sh` and required-file coverage for `docs/PRODUCT.md` added to `verify_structure.sh`.
 
 ## Open Questions
 
 - **Q-1: ANSWERED (2026-08-31)** — see Verified Facts above and `docs/PRODUCT.md`.
-- **Q-2: OPEN (deferred by owner, 2026-08-31)** — stack for the thin slice; discussion resumes only after the Requirements are signed.
+- **Q-2: ANSWERED (2026-08-31, directive §4-C)** — stack decided in ADR-0001: Python 3.11+, stdlib-only (TS-first rule inapplicable: no existing TS code).
 - **Q-3:** Documentation language(s) beyond English? (candidate backlog item `T-006`)
 - **Q-4: ANSWERED (2026-08-31)** — owner delegated the Requirements draft to the agent, `DOCUMENTED` until signature; delegation executed (`docs/REQUIREMENTS.md`).
 - **Q-5: ANSWERED (2026-08-31)** — constraints signed in full; P-2 identity statement endorsed as a refinement candidate only; rest of P-2 unsigned (`docs/CONSTRAINTS.md` §Decision record).
@@ -75,8 +78,7 @@
 
 ## Next Actions
 
-1. Step B (owner-approved): merge PR #1 — verify PR identity + CI green first, then merge and record main-head evidence.
-2. Step C: `T-010` — ADR-0001 (stack evaluation per directive §C criteria: actual requirements, cost, free operability, security, scalability); no implementation before the ADR is fixed.
-3. Step D (after ADR): minimal vertical slice per directive §4-D within scope (a).
-4. **Agents: no scope expansion beyond directive §4-D/§5; stop conditions per directive §12 apply.**
-5. Any agent starting fresh: read `AGENTS.md` → this file → `docs/HANDOFF.md` (in that order).
+1. **Step D (directive §4-D): implement the minimal vertical slice** — `src/canyou/` (registry, policy, connector interface + GitHub adapter, evidence, runtime) + `tests/` + `scripts/verify/verify_slice.sh` (with a negative test) — then Change→Verify→Evidence→Commit→Handoff.
+2. After Step D: PR #2 from this branch to `main`; owner may enable branch protection (`T-003`).
+3. §12 stop-rules active throughout; §5 exclusions binding; P-3 remains unsigned.
+4. Any agent starting fresh: read `AGENTS.md` → this file → `docs/HANDOFF.md` (in that order).
