@@ -4,28 +4,32 @@
 
 - **Last updated:** 2026-08-31 (UTC)
 - **Active branch:** `arena/01a05905-canyou`
-- **Base commit:** `e0b7fcf` (Initial commit — README stub only)
+- **Head commit:** `640ac834aee669d819f7b6fc5a86b65ad75b2466`
 
 ## Active Task
 
-**T-000 — Agent-Ready Repository Baseline.** Establish the governance layer only: agent contract, state files, continuation protocol, deterministic verification, CI. No application stack, no product code (deliberate).
+**T-000 — Agent-Ready Repository Baseline: delivered on branch, pending merge + CI activation.** Governance layer complete except the one-step CI activation (`T-008`). No application stack, no product code — deliberate. Next task starts only after the maintainer answers Q-1.
 
 ## Status Board
 
 | Item | State | Evidence |
 |---|---|---|
-| Agent contract | IMPLEMENTED | `AGENTS.md` |
-| Work-state files | IMPLEMENTED | `tasks/CURRENT.md`, `tasks/BACKLOG.md` |
-| Continuation protocol | IMPLEMENTED | `docs/HANDOFF.md` |
-| Governance documentation | IMPLEMENTED | `docs/ARCHITECTURE.md`, `docs/DEVELOPMENT.md`, `docs/OPERATIONS.md`, `docs/SECURITY.md` |
-| Deterministic verification suite | IMPLEMENTED | `scripts/verify/verify.sh` + `verify_*.sh` |
-| CI workflow | DOCUMENTED | Content ready at `.github/pending/ci.yml`; activation needs a maintainer with web-UI access (T-008) — automation tokens cannot create workflow files |
-| Collaboration templates | IMPLEMENTED | `.github/ISSUE_TEMPLATE/`, `.github/pull_request_template.md` |
-| Repository meta files | IMPLEMENTED | `README.md`, `CONTRIBUTING.md`, `CHANGELOG.md`, `LICENSE`, `.editorconfig`, `.gitignore` |
+| Agent contract | COMMITTED | `AGENTS.md` @ `640ac83` |
+| Work-state files | COMMITTED | `tasks/CURRENT.md`, `tasks/BACKLOG.md` @ `640ac83` |
+| Continuation protocol | COMMITTED | `docs/HANDOFF.md` @ `640ac83` |
+| Governance documentation | COMMITTED | `docs/ARCHITECTURE.md`, `docs/DEVELOPMENT.md`, `docs/OPERATIONS.md`, `docs/SECURITY.md` @ `640ac83` |
+| Deterministic verification suite | COMMITTED | `scripts/verify/verify.sh` + 3 checks @ `640ac83` |
+| CI workflow | DOCUMENTED | Content ready: `.github/pending/ci.yml` (T-008); automation tokens cannot create workflow files — activation is a one-step web-UI action by the maintainer |
+| Collaboration templates | COMMITTED | `.github/ISSUE_TEMPLATE/`, `.github/pull_request_template.md` @ `640ac83` |
+| Repository meta files | COMMITTED | `README.md`, `CONTRIBUTING.md`, `CHANGELOG.md`, `LICENSE`, `.editorconfig`, `.gitignore` @ `640ac83` |
 
 ## Verified Facts
 
-- None recorded yet this session. Run `bash scripts/verify/verify.sh` and record the command + result here before marking anything `VERIFIED`.
+- **Verification suite passes on the baseline commit.**
+  - Command: `bash scripts/verify/verify.sh`
+  - Result (2026-08-31, on commit `640ac83` working tree): `RESULT: PASS — 3 check group(s). Repository state matches its contract.` — exit code 0; verify_content 12 checks PASS, verify_hygiene 4 checks PASS, verify_structure 18 PASS + 1 accepted-pending NOTE (CI staged, T-008).
+- **`main` history before this work:** single commit `e0b7fcf` containing only a `README.md` stub — confirmed via `git log --oneline` and directory listing on 2026-08-31. Nothing else was ever implemented in this repository.
+- **Push constraint (evidence):** `git push` of a commit containing `.github/workflows/ci.yml` was rejected by GitHub — `refusing to allow a GitHub App to create or update workflow .github/workflows/ci.yml without workflows permission`. Hence the staged-pending design and task `T-008`.
 
 ## Open Questions
 
@@ -35,8 +39,8 @@
 
 ## Next Actions
 
-1. Run `bash scripts/verify/verify.sh` and record evidence in Verified Facts.
-2. Commit the baseline; raise Status Board states to `COMMITTED` with the commit SHA.
-3. Append the first handoff record to `docs/HANDOFF.md`.
-4. Maintainer: activate CI per `T-008` (move `.github/pending/ci.yml` → `.github/workflows/ci.yml` via the GitHub web UI).
-5. Answer Q-1 with the maintainer, then queue `T-001`.
+1. Maintainer: activate CI per `T-008` — move `.github/pending/ci.yml` → `.github/workflows/ci.yml` via the GitHub web UI (on this branch or after merge), then delete the pending file and mark `T-008` DONE.
+2. Maintainer: review and merge the baseline PR into `main`.
+3. After the first CI run, record the run link here and raise “CI workflow” to `VERIFIED`.
+4. Maintainer: answer Q-1, then start `T-001` (define product purpose).
+5. Any agent starting fresh: read `AGENTS.md` → this file → `docs/HANDOFF.md` (in that order).
