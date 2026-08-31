@@ -13,7 +13,7 @@ set -uo pipefail
 script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 repo_root="$(cd "${script_dir}/../.." && pwd)"
 
-cd "${repo_root}"
+cd "${repo_root}" || exit 1
 
 overall=0
 run=0
