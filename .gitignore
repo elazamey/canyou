@@ -1,0 +1,22 @@
+# OS / editor artifacts
+.DS_Store
+Thumbs.db
+*.swp
+.idea/
+.vscode/
+
+# Logs and temporary files
+*.log
+tmp/
+
+# Local environment and secrets
+.env
+.env.*
+
+# Dependencies and build outputs (none yet — extend when a stack is chosen)
+node_modules/
+dist/
+build/
+target/
+__pycache__/
+.venv/
