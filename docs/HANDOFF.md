@@ -53,6 +53,67 @@ Immediate next step:
 
 ## Latest handoff records
 
+### 2026-09-01 08:41 UTC — T-011 re-implementation — handoff
+
+Agent:        Arena Agent (session-scoped; identity irrelevant to the contract)
+Branch:       `arena/01a05c0e-canyou`
+Base commit:  `1a1a878` (ADR-0001 acceptance state; baseline verified clean at session start)
+Head commit:  none — the owner directive for this session explicitly forbids committing; the implementation lives in the working tree, READY FOR COMMIT REVIEW
+
+Done (state + evidence):
+  - Recovery search for `241fb02f` — VERIFIED NEGATIVE: 7/7 sources covered
+    (local object database, `git fsck --unreachable`, refs + reflog,
+    `git ls-remote`, GitHub API (HTTP 422 for the SHA), filesystem artifacts,
+    textual grep) — all negative; owner decision 2026-09-01: OPTION A
+    (re-implement from the documented specification only)
+  - T-011 thin slice — IMPLEMENTED + VERIFIED (working tree, NOT committed):
+    `src/canyou/` (registry / policy / evidence / runtime / connectors+github,
+    exactly the ADR-0001 layout), `tests/` — 54 offline tests (injected fake
+    transport, zero network), `scripts/verify/verify_slice.sh` (7th check
+    group with a built-in negative control); evidence:
+    `bash scripts/verify/verify_slice.sh` exit 0 (5 PASS lines) and
+    `bash scripts/verify/verify.sh` → `RESULT: PASS — 7 check group(s)`, exit 0;
+    external tamper test: broken assertion → suite FAIL exit 1 → restored → PASS
+  - Documentation sync (within scope): `tasks/CURRENT.md` (Active Task, board
+    row VERIFIED, three Verified Facts, Next Actions), `tasks/BACKLOG.md`
+    (T-011 → IN PROGRESS), `docs/ARCHITECTURE.md` (two status sentences), this record
+
+Not done / remaining:
+  - Commit — BLOCKED by the owner gate (READY FOR COMMIT REVIEW; one
+    Conventional `feat` commit proposed; states upgrade to COMMITTED only after)
+  - Push / PR — unauthorized (the next owner gate, after commit)
+  - Governance staleness pass — out of T-011 scope, flagged to the owner:
+    `docs/SECURITY.md` dependency posture, `docs/OPERATIONS.md` CI section,
+    `AGENTS.md` §7, `README.md` status line, `CHANGELOG.md` slice entry
+
+Decisions made this session:
+  - Re-implemented from specification, never from memory: sources were
+    `docs/REQUIREMENTS.md` + ADR-0001 + `docs/CONSTRAINTS.md` + directive §4-D/§5
+  - Provenance recorded verbatim (mirrored in `tasks/CURRENT.md` → Verified Facts):
+    Original commit: 241fb02f — LOST / EVIDENCE UNAVAILABLE
+    Recovery mechanism: RE-IMPLEMENTED FROM SPECIFICATION
+    New implementation commit: PENDING
+    Original SHA preserved: NO
+  - Zero dependencies added (stdlib-only per ADR-0001); no `.github/` change;
+    no `T-003` change; no historical record altered (appends only);
+    existing verification scripts untouched (`verify_slice.sh` is new)
+
+Risks / open questions:
+  - `shellcheck` is not installed in this sandbox — CI's shellcheck job will
+    lint `verify_slice.sh` for the first time on the next push (the script
+    follows the existing style; `bash -n` is clean)
+  - Python matrix: verified on 3.11.2 locally; CI runners ship 3.12 (suite is
+    stdlib-only and version-agnostic within 3.11+)
+  - The governance files listed above carry stale claims (some predate this
+    session); they do not gate T-011 but should be reconciled in a
+    maintainer-owned pass before the Security Gate
+
+Immediate next step:
+  - Owner audits the working tree (`git diff`; run
+    `bash scripts/verify/verify.sh` and expect `PASS — 7 check group(s)`);
+    on approval, commit the slice as a single Conventional Commit and hand
+    the SHA back for the state update.
+
 ### 2026-08-31 23:40 UTC — OWNER DIRECTIVE Steps A/B/C — handoff
 
 Agent:        Arena Agent (session-scoped; identity irrelevant to the contract)

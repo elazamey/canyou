@@ -4,9 +4,9 @@
 
 ## Current reality
 
-**This repository contains no application code.** It currently implements exactly one layer: the **agent governance layer** — the agent-ready baseline that makes the repository itself the carrier of work state, evidence, and continuation across agents.
+**This repository now carries exactly one application artifact: the Phase-1 thin slice (Layer 2 below — VERIFIED in the working tree, commit pending).** Alongside it implements the **agent governance layer** — the agent-ready baseline that makes the repository itself the carrier of work state, evidence, and continuation across agents.
 
-No product purpose was recorded until 2026-08-31, when the owner signed the Product Definition (`docs/PRODUCT.md`) and then the Requirements (`docs/REQUIREMENTS.md`) with the OWNER DIRECTIVE; the stack is now decided (ADR-0001). **The repository still contains no application code** — implementation starts under directive §4-D only.
+No product purpose was recorded until 2026-08-31, when the owner signed the Product Definition (`docs/PRODUCT.md`) and then the Requirements (`docs/REQUIREMENTS.md`) with the OWNER DIRECTIVE; the stack is now decided (ADR-0001). **The thin slice (T-011) is implemented and VERIFIED in the working tree (2026-09-01) — not yet committed; `tasks/CURRENT.md` is the authoritative state.**
 
 ## Layer 1 — Governance layer (`IMPLEMENTED`)
 
@@ -62,11 +62,11 @@ The component table intentionally does **not** repeat states inline; `tasks/CURR
 3. **Fail closed:** missing files, stale headings, or an unstatesed status row must fail verification, not pass silently.
 4. **Agent-neutral:** governance files never reference a specific agent product or grant it special behavior.
 
-## Layer 2 — Application layer (DEFINED — architecture accepted, code NOT STARTED)
+## Layer 2 — Application layer (ADR-0001 — implemented; VERIFIED in working tree, commit pending)
 
 Defined by **ADR-0001** (`docs/decisions/ADR-0001-phase1-runtime-and-stack.md`, ACCEPTED 2026-08-31 per OWNER DIRECTIVE §4-C): Python 3.11+, stdlib-only, layout `src/canyou/` (registry / policy / connectors + GitHub adapter / evidence / runtime), tests under `tests/`, CI gating via a `verify_slice.sh` check inside the existing suite (no workflow edits needed). The chain is fixed by the signed requirements + directive §7: Agent → Tool Registry → Policy Gate → Connector Runtime → GitHub API → Evidence; default DENY; destructive ops BLOCKED by default; per-operation TraceRecord (§8).
 
-**Status: architecture COMMITTED (ADR-0001); implementation (T-011) NOT STARTED** — it begins only under OWNER DIRECTIVE §4-D with tests, permission boundaries, and evidence per execution.
+**Status: architecture COMMITTED (ADR-0001); implementation (T-011) VERIFIED in the working tree (2026-09-01), commit pending owner review** — executed under OWNER DIRECTIVE §4-D with tests, permission boundaries, and evidence per execution. The original implementation commit (`241fb02f`) was lost with its ephemeral session (recovery search NOT FOUND, 2026-09-01); the slice was re-implemented from the documented specification only — see `tasks/CURRENT.md` → Verified Facts.
 
 ## Extension rules
 
