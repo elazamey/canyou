@@ -1,6 +1,9 @@
 # Architecture
 
 > Claims in this file are `DOCUMENTED` until proven otherwise. See `AGENTS.md` §2 for the state vocabulary and `tasks/CURRENT.md` for the current status board.
+> Phase sequencing and the commercial shape of the platform live in **`docs/ROADMAP.md`** (owner-signed,
+> 2026-09-01). That file states intent and ordering; this file describes the architecture that actually
+> exists, and only `docs/decisions/` + code + a passing verification run can raise a phase to fact.
 
 ## Current reality
 
@@ -72,4 +75,6 @@ Defined by **ADR-0001** (`docs/decisions/ADR-0001-phase1-runtime-and-stack.md`, 
 
 - New deterministic checks go into `scripts/verify/verify_*.sh` (auto-discovered by `verify.sh`).
 - Architecture decisions change this file **and** the status board in `tasks/CURRENT.md` in the same commit.
+- A roadmap phase from `docs/ROADMAP.md` may not change this file until its ADR is `ACCEPTED`; the plan
+  sequences work, it does not architect it.
 - Any diagram or table here describes intent; the files on disk and the passing verification run are the truth.

@@ -50,3 +50,33 @@ The signed Phase-1 slice (Tool Registry + Policy Gate + one Connector) must **ob
 - Area 4 (monetization) — **not part of the slice**; the slice must not preclude metering later.
 - Area 5 and the ledger clause of area 6 — the **Execution Ledger is deliberately out of the slice** (owner, Q-6: no scope creep). The slice carries only the minimal auditable decision record emitted by the Policy Gate (area 6 “actions → audited”), which is a property of the Gate, not a new component.
 - Areas 2 and 6 (free-to-run, untrusted actor, policy-before-execution) — **fully binding on the slice** from day one.
+
+## Decision record (owner, 2026-09-01) — comprehensive plan: binding clauses — verbatim
+
+**Source:** repository owner (elazamey), 2026-09-01, together with the master plan recorded in
+`docs/ROADMAP.md`. Appended at the end of this file (append-only, `AGENTS.md` §4.9); the 2026-08-31
+decision record above is untouched.
+**Status:** signed by the owner as product strategy. The clauses below bind **how** later phases may be
+executed; they do not create implementation scope by themselves (pipeline unchanged: `AGENTS.md` §2).
+
+1. **Open core, paid convenience** — verbatim: «المنتج الأساسي مفتوح المصدر ومجاني، بينما ندفع المستخدم
+   مقابل الراحة، الإدارة، التعاون، الأمان المؤسسي، والخدمات المتقدمة.»
+2. **No financial barrier to run locally** — verbatim: «Canyou Core لا يفرض اشتراكًا أو حاجزًا ماليًا على
+   المستخدم لتشغيل النسخة المحلية.» This is the approved external phrasing; «AI بالكامل مجاني» is
+   explicitly **not** approved, because model cost may sit with an external provider and its quotas.
+3. **Revenue never overrides the product philosophy** — verbatim: «لن نجعل الربح يتعارض مع فلسفة
+   المنتج.» Engines: local free edition = adoption, Managed Cloud = revenue, Enterprise = high value,
+   Marketplace = ecosystem, consulting = early revenue + feedback.
+4. **Ordering is binding on agents** — verbatim: «Core → Trust → Users → Product → Revenue → Scale»,
+   and the current priority «Security Gate → External Validation → Staging → Production Readiness».
+5. **No pricing numbers before data** — verbatim: «التسعير يجب أن يُحدد بعد معرفة الاستخدام الحقيقي
+   والتكاليف، وليس تثبيت أرقام مبكرة دون بيانات.» An agent may not invent plans, tiers, or prices.
+6. **Self-healing is not autonomous merge** — verbatim: «Self-Healing لا تعني Autonomous Merge»:
+   high-risk operations stay behind the Policy Gate and an owner authorization gate.
+7. **The dashboard never gates local use** — the Web Arena is «مدخل SaaS لاحقًا، وليس شرطًا لتشغيل
+   النسخة المحلية».
+8. **No permanent grant dependency** — verbatim: «يُمنع أن تصبح الخطة المالية معتمدة على منحة أو رصيد
+   مجاني دائم.»
+9. **Exclusions in force now** (`docs/ROADMAP.md` §17): no early Marketplace, no Enterprise features
+   before users, no SaaS before a stable core, no connector sprawl without real demand, no autonomous
+   merge, no ungoverned self-healing, no costly cloud infrastructure before traction.

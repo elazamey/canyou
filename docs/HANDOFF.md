@@ -52,6 +52,75 @@ Immediate next step:
 5. Re-bound the task scope yourself (`AGENTS.md` §3.2) — do not inherit scope blindly.
 
 ## Latest handoff records
+### 2026-09-01 09:41 UTC — system master plan intake (`docs/ROADMAP.md`) — handoff
+
+Agent:        Arena Agent (session-scoped; identity irrelevant to the contract)
+Branch:       `arena/01a05c47-canyou`
+Base commit:  `57e82228db8df562bb8e832ebd48cd481cfa1332` (the post-merge state sync — PR #4 head when this
+              plan arrived)
+Head commit:  the commit carrying this record (parent `57e8222`)
+
+Done (state + evidence):
+  - Master plan received and recorded — COMMITTED: `docs/ROADMAP.md` (new) preserves the owner's 18-section plan
+    verbatim (Arabic authoritative; two mechanical accommodations disclosed in the file header — heading depth, and the English
+    file title placed above the owner's own Arabic title, kept verbatim), with a
+    governing-effect header: Phase-1 scope unchanged, no post-Phase-1 item is `IMPLEMENTED`, every later phase needs
+    requirements → ADR → tasks before code, and the roadmap outranks `docs/PROPOSALS.md` §P-2/§P-3 on ordering only.
+  - Binding clauses cross-recorded — COMMITTED: `docs/CONSTRAINTS.md` → §Decision record (owner, 2026-09-01), nine
+    clauses: open core with paid convenience; the exact zero-barrier wording (never "AI is free"); revenue never
+    overrides the product philosophy; ordering `Core → Trust → Users → Product → Revenue → Scale`; no pricing before
+    usage/cost data; self-healing ≠ autonomous merge; the dashboard never gates local use; no permanent
+    grant/credit dependency; the §17 exclusions. Append-only: 30 insertions / 0 deletions.
+  - Plan → work queue — COMMITTED: `tasks/BACKLOG.md` `T-012`…`T-023` (Security Gate, external validation, staging +
+    smoke, Phase-3 packaging, Arena + evidence-based scoring, governed self-healing, web dashboard, managed cloud,
+    enterprise controls, marketplace, commercial artifacts, governance-hardening candidates) — all `OPEN`, each
+    carrying the gate that blocks it; `T-005`'s precondition note refreshed (the slice now exists on `main`).
+  - State consistency — COMMITTED: `tasks/CURRENT.md` (Active Task, a Status Board row, a Verified Facts entry,
+    `Q-8`/`Q-9`/`Q-10` opened, `Q-3` sharpened, Next Actions re-sequenced) and `docs/ARCHITECTURE.md` (pointer to the
+    roadmap + the rule that a roadmap phase may not touch architecture before its ADR is `ACCEPTED`).
+  - Suite — VERIFIED: `bash scripts/verify/verify.sh` → `RESULT: PASS — 7 check group(s)`, exit 0; `verify_records.sh`
+    PASS (PROPOSALS anchors untouched, every handoff record complete — including this one); `git diff --check` clean;
+    backlog table = 23 rows × 4 fields.
+
+Not done / remaining:
+  - Merge of PR #4 — owner-held, NOT AUTHORIZED to this agent. The PR now carries two documentation commits
+    (state sync + master plan). Reviewing them as two PRs requires a second branch and an explicit owner
+    instruction — this session may only push `arena/01a05c47-canyou` — and no rewriting may be used to fake a split.
+  - `T-012` Security Gate — NOT STARTED. The roadmap names it the current priority; that is sequencing, not
+    authorization. No agent opens it from this record.
+  - No requirements rows were created from the plan, deliberately: promotion needs the owner's signature.
+    `docs/PRODUCT.md`, `docs/REQUIREMENTS.md`, `docs/decisions/ADR-0001`, `src/`, `tests/`, `scripts/`, `.github/`
+    are untouched by this commit.
+  - Governance staleness (list unchanged, plus one): `docs/SECURITY.md` dependency posture, `docs/OPERATIONS.md` CI
+    section, `README.md` status line, `CHANGELOG.md` slice entry, and `AGENTS.md` §7's "there is no application code"
+    — now contradicted by both `main` and this plan; that file is maintainer-owned.
+  - `T-003` branch protection — `OPEN` (owner action). `T-023` recorded, not authorized (it edits `scripts/verify/`).
+
+Decisions made this session:
+  - Recorded as a signed owner strategy file rather than as `## P-4` in `docs/PROPOSALS.md`: a P-entry means
+    "awaiting an owner decision", which is false for the owner's own directive. Precedent followed: `docs/PRODUCT.md`
+    (verbatim owner text + English framing + an explicit "what this fixes" section).
+  - Left `Q-3` (documentation language) open and sharpened instead of quietly translating the owner's plan.
+  - Made every record-file edit provably append-only (`git diff --numstat` = zero deletions) per `AGENTS.md` §4.9.
+  - Added no stubs, interfaces, or "preparation" code for future phases: a plan is a document, and pre-building it
+    would smuggle scope in through the back door.
+
+Risks / open questions:
+  - A strategy record can silently become an implementation license for the next agent. Mitigation is placed where it
+    will be read: the ROADMAP header, the `docs/ARCHITECTURE.md` rule, and the `tasks/CURRENT.md` board all say
+    `DOCUMENTED` / "authorizes none of it".
+  - The plan promises properties the current stdlib-only slice cannot yet deliver (policy-bypass resistance, evidence
+    integrity guarantees, marketplace, SLA). Until `T-012`…`T-014` close, any readiness claim in `README.md` /
+    `CHANGELOG.md` / external copy would be evidence-free — keep it out.
+  - `T-019`…`T-021` rest on data that does not exist (usage, cost, user base); they may need re-sequencing once
+    `T-012` reports.
+  - PR #4's recorded CI evidence belongs to head `57e8222`. The new head SHA re-runs both checks; the merge decision
+    must be taken against that newer run.
+
+Immediate next step:
+  - Owner: read `docs/ROADMAP.md` (fidelity + governing effect), then decide the PR #4 question — merge as one
+    documentation PR or authorize a second branch to split it — and only afterwards open `T-012`. Nothing here merges,
+    deploys, tags, or starts the Security Gate.
 
 ### 2026-09-01 09:32 UTC — docs state sync + release chain (post-merge) — handoff
 
