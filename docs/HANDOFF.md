@@ -52,6 +52,220 @@ Immediate next step:
 5. Re-bound the task scope yourself (`AGENTS.md` §3.2) — do not inherit scope blindly.
 
 ## Latest handoff records
+### 2026-09-01 09:49 UTC — T-003 consistency fix (pre-merge) — handoff
+
+Agent:        Arena Agent (session-scoped; identity irrelevant to the contract)
+Branch:       `arena/01a05c47-canyou`
+Base commit:  `a8f92aec8ed3855972a18881ebe186af6191c295` (master-plan intake; PR #4 head at the time)
+Head commit:  the commit carrying this record (parent `a8f92ae`)
+
+Done (state + evidence):
+  - Owner-flagged contradiction removed — COMMITTED: `tasks/BACKLOG.md` `T-003` `OPEN` → `DONE`. The state was
+    verified by the agent, not inherited: `gh api repos/elazamey/canyou/branches/main` → `"protected": true`
+    (2026-09-01 09:46 UTC). Corroboration: `git log --first-parent main` → `6f35c05` ← `cef93df` ← `b3b7707` ←
+    `e0b7fcf` — `main` has only ever advanced through PR merge commits (supporting, not proving, the require-PR rule).
+  - Taxonomy separation written down so it cannot drift again — COMMITTED: `DONE` = the backlog item's work is
+    complete (`OPEN → IN PROGRESS → DONE`); `ACTIVE` = the protection remains in force on GitHub, a property of the
+    branch, not a state in `AGENTS.md` §2. `tasks/CURRENT.md` carries the matching `VERIFIED` board row that
+    `docs/OPERATIONS.md` requires when a backlog item closes, plus a Verified Facts entry with the commands.
+  - Evidence boundary respected — VERIFIED: `GET /branches/main/protection`, `/required_status_checks`,
+    `/required_pull_request_reviews`, `/enforce_admins` → `HTTP 403 Resource not accessible by integration` with the
+    agent token. So the individual rules (required checks list, strict up-to-date, admin enforcement, force-push
+    allowance) are recorded as `NOT VERIFIED (agent scope)` and `Q-11` was opened for them. No row claims them.
+  - Stale claims corrected across the state files — COMMITTED: Active Task gate posture (`T-003 = DONE / ACTIVE`),
+    `Q-8` and `Q-10` marked ANSWERED with the owner's rulings, `Q-11` opened, Next Actions re-sequenced to
+    `T-012`.
+  - Suite — VERIFIED: `bash scripts/verify/verify.sh` → `RESULT: PASS — 7 check group(s)`, exit 0;
+    `git diff --check` clean; scope audit: `tasks/BACKLOG.md` 2/2 and `tasks/CURRENT.md` this record's section only
+    (plus this append-only file) — no `src/`, `tests/`, `scripts/`, `.github/`, dependency, or roadmap change.
+
+Not done / remaining:
+  - `docs/ROADMAP.md` still contains one now-stale sentence the owner excluded from this change: the "Phase →
+    repository reality" table, Phase-1 row, `branch protection OPEN (T-003)`. It contradicts this fix by exactly one
+    line. Not edited (directive item 5), recorded here so the next agent does not inherit it as a mystery.
+  - Post-merge state lag: the PR #4 merge itself cannot be recorded inside PR #4, so `tasks/CURRENT.md` on `main`
+    will describe "merge pending" until the next documentation commit — expected home: the `T-012` PR.
+  - `T-012` Security Gate — NOT STARTED; opens on the owner's instruction with a deterministic harness.
+  - `T-023` (roadmap-presence check `A`, handoff-head-SHA reachability check `B`) — accepted as P1 governance
+    hardening, deliberately not now; both edit `scripts/verify/`.
+  - `T-005` — kept `OPEN`: the owner's ruling is that a satisfied precondition does not become `DONE` unless the
+    taxonomy says so, and it does not. No new state was invented.
+
+Decisions made this session:
+  - The `T-003` claim was re-verified against GitHub before being written (AGENTS.md §2), and the record states the
+    limit of that verification instead of upgrading it to "required checks enforced".
+  - Merge execution follows the owner's conditional YES (fix → green CI on the newest head → mergeable/up-to-date →
+    merge as a **merge commit**, no rewrite). The gate itself was not treated as self-granted: it runs only because
+    the owner wrote the YES and the conditions are evidenced in the PR.
+  - Two edits landed that the phase allowlist did not name, both disclosed: this handoff record (mandatory under
+    `AGENTS.md` §3.8 and `docs/HANDOFF.md` rules — a session that ends without one leaves state stale) and the
+    removal of a defect this agent shipped in `a8f92ae` (see Risks).
+
+Risks / open questions:
+  - Defect disclosed, not buried: the roadmap commit `a8f92ae` left a duplicate stale line in `tasks/CURRENT.md`
+    Next Actions (an old "5. Any agent starting fresh…" surviving a section rewrite). It was caught while rewriting
+    that section now, and removed — `verify.sh` could not see it because it is content, not structure. Lesson for
+    `T-023`: section rewrites deserve a leftover-line check, and a `grep`-level review of the file after any
+    block replacement is not optional.
+  - `protected: true` is a boolean, not a rule set. If the owner's settings actually differ from the task text
+    ("no direct pushes, no force pushes" not individually verified), the board row is honest about that; closing the
+    gap needs an admin token or a settings screenshot archived as evidence.
+  - A fix that removes one contradiction while leaving another (the ROADMAP line) is only acceptable because it is
+    recorded where the next agent will read it. If the ROADMAP line is not corrected in the `T-012` PR, the repo has
+    knowingly kept a stale claim — the exact failure mode this governance exists to prevent.
+
+Immediate next step:
+  - Owner: merge PR #4 (merge commit) on the green head SHA of this fix, then instruct the agent to open `T-012`
+    Security Gate; include in that PR the one-line `docs/ROADMAP.md` Phase-1 row correction and the post-merge state
+    update. Nothing in this record deploys, tags, or starts the Security Gate.
+### 2026-09-01 09:41 UTC — system master plan intake (`docs/ROADMAP.md`) — handoff
+
+Agent:        Arena Agent (session-scoped; identity irrelevant to the contract)
+Branch:       `arena/01a05c47-canyou`
+Base commit:  `57e82228db8df562bb8e832ebd48cd481cfa1332` (the post-merge state sync — PR #4 head when this
+              plan arrived)
+Head commit:  the commit carrying this record (parent `57e8222`)
+
+Done (state + evidence):
+  - Master plan received and recorded — COMMITTED: `docs/ROADMAP.md` (new) preserves the owner's 18-section plan
+    verbatim (Arabic authoritative; two mechanical accommodations disclosed in the file header — heading depth, and the English
+    file title placed above the owner's own Arabic title, kept verbatim), with a
+    governing-effect header: Phase-1 scope unchanged, no post-Phase-1 item is `IMPLEMENTED`, every later phase needs
+    requirements → ADR → tasks before code, and the roadmap outranks `docs/PROPOSALS.md` §P-2/§P-3 on ordering only.
+  - Binding clauses cross-recorded — COMMITTED: `docs/CONSTRAINTS.md` → §Decision record (owner, 2026-09-01), nine
+    clauses: open core with paid convenience; the exact zero-barrier wording (never "AI is free"); revenue never
+    overrides the product philosophy; ordering `Core → Trust → Users → Product → Revenue → Scale`; no pricing before
+    usage/cost data; self-healing ≠ autonomous merge; the dashboard never gates local use; no permanent
+    grant/credit dependency; the §17 exclusions. Append-only: 30 insertions / 0 deletions.
+  - Plan → work queue — COMMITTED: `tasks/BACKLOG.md` `T-012`…`T-023` (Security Gate, external validation, staging +
+    smoke, Phase-3 packaging, Arena + evidence-based scoring, governed self-healing, web dashboard, managed cloud,
+    enterprise controls, marketplace, commercial artifacts, governance-hardening candidates) — all `OPEN`, each
+    carrying the gate that blocks it; `T-005`'s precondition note refreshed (the slice now exists on `main`).
+  - State consistency — COMMITTED: `tasks/CURRENT.md` (Active Task, a Status Board row, a Verified Facts entry,
+    `Q-8`/`Q-9`/`Q-10` opened, `Q-3` sharpened, Next Actions re-sequenced) and `docs/ARCHITECTURE.md` (pointer to the
+    roadmap + the rule that a roadmap phase may not touch architecture before its ADR is `ACCEPTED`).
+  - Suite — VERIFIED: `bash scripts/verify/verify.sh` → `RESULT: PASS — 7 check group(s)`, exit 0; `verify_records.sh`
+    PASS (PROPOSALS anchors untouched, every handoff record complete — including this one); `git diff --check` clean;
+    backlog table = 23 rows × 4 fields.
+
+Not done / remaining:
+  - Merge of PR #4 — owner-held, NOT AUTHORIZED to this agent. The PR now carries two documentation commits
+    (state sync + master plan). Reviewing them as two PRs requires a second branch and an explicit owner
+    instruction — this session may only push `arena/01a05c47-canyou` — and no rewriting may be used to fake a split.
+  - `T-012` Security Gate — NOT STARTED. The roadmap names it the current priority; that is sequencing, not
+    authorization. No agent opens it from this record.
+  - No requirements rows were created from the plan, deliberately: promotion needs the owner's signature.
+    `docs/PRODUCT.md`, `docs/REQUIREMENTS.md`, `docs/decisions/ADR-0001`, `src/`, `tests/`, `scripts/`, `.github/`
+    are untouched by this commit.
+  - Governance staleness (list unchanged, plus one): `docs/SECURITY.md` dependency posture, `docs/OPERATIONS.md` CI
+    section, `README.md` status line, `CHANGELOG.md` slice entry, and `AGENTS.md` §7's "there is no application code"
+    — now contradicted by both `main` and this plan; that file is maintainer-owned.
+  - `T-003` branch protection — `OPEN` (owner action). `T-023` recorded, not authorized (it edits `scripts/verify/`).
+
+Decisions made this session:
+  - Recorded as a signed owner strategy file rather than as `## P-4` in `docs/PROPOSALS.md`: a P-entry means
+    "awaiting an owner decision", which is false for the owner's own directive. Precedent followed: `docs/PRODUCT.md`
+    (verbatim owner text + English framing + an explicit "what this fixes" section).
+  - Left `Q-3` (documentation language) open and sharpened instead of quietly translating the owner's plan.
+  - Made every record-file edit provably append-only (`git diff --numstat` = zero deletions) per `AGENTS.md` §4.9.
+  - Added no stubs, interfaces, or "preparation" code for future phases: a plan is a document, and pre-building it
+    would smuggle scope in through the back door.
+
+Risks / open questions:
+  - A strategy record can silently become an implementation license for the next agent. Mitigation is placed where it
+    will be read: the ROADMAP header, the `docs/ARCHITECTURE.md` rule, and the `tasks/CURRENT.md` board all say
+    `DOCUMENTED` / "authorizes none of it".
+  - The plan promises properties the current stdlib-only slice cannot yet deliver (policy-bypass resistance, evidence
+    integrity guarantees, marketplace, SLA). Until `T-012`…`T-014` close, any readiness claim in `README.md` /
+    `CHANGELOG.md` / external copy would be evidence-free — keep it out.
+  - `T-019`…`T-021` rest on data that does not exist (usage, cost, user base); they may need re-sequencing once
+    `T-012` reports.
+  - PR #4's recorded CI evidence belongs to head `57e8222`. The new head SHA re-runs both checks; the merge decision
+    must be taken against that newer run.
+
+Immediate next step:
+  - Owner: read `docs/ROADMAP.md` (fidelity + governing effect), then decide the PR #4 question — merge as one
+    documentation PR or authorize a second branch to split it — and only afterwards open `T-012`. Nothing here merges,
+    deploys, tags, or starts the Security Gate.
+
+### 2026-09-01 09:32 UTC — docs state sync + release chain (post-merge) — handoff
+
+Agent:        Arena Agent (session-scoped; identity irrelevant to the contract)
+Branch:       `arena/01a05c47-canyou`
+Base commit:  `6f35c05ec560e79e0e3f523c0c5b14f11080289f` (`main`, verified identical to `origin/main`)
+Head commit:  the commit carrying this record — its parent is `6f35c05`
+
+Done (state + evidence):
+  - Inherited reference audited before any write — VERIFIED NEGATIVE: the handoff claimed
+    `feature/docs-state-sync` @ `51f4aeb0bf5c014bd05fa255c7a89c73fd4861cd` (parent `6f35c05`).
+    That branch and commit do not exist. Recovery search 7/7 sources, all negative — local object
+    DB (`git cat-file` → bad object), `git fsck --full --unreachable` (none), refs + reflog
+    (clone + `branch: Created from 1a1a878` only), `git ls-remote` incl. `refs/pull/*`, GitHub API
+    (`/commits/51f4aeb…` → HTTP 422), PR list (`gh pr list --state all` → #1/#2/#3, all merged),
+    filesystem (`/tmp/arena-workspace` empty, no bundles/patches, workspace grep → no match).
+    Owner decision this session: OPTION A — re-create the documentation commit from repo records.
+  - Baseline verified — PASS: session branch was at `1a1a878` (pre-T-011) with a clean tree;
+    `verify.sh` there = `PASS — 6 check group(s)` (no `verify_slice.sh` yet — that tree predates
+    the slice). `main` = `6f35c05` = merge of PR #3 (T-011 slice MERGED, 2026-09-01 09:02:01 UTC,
+    owner-authorized). Full evidence in `tasks/CURRENT.md` → Verified Facts.
+  - Branch aligned to the expected parent without rewriting history — VERIFIED:
+    `git fetch --unshallow origin` (the clone was shallow/grafted; objects only) then
+    `git merge --ff-only main` → HEAD `6f35c05`, zero commits created, no amend/reset/force-push;
+    `verify.sh` = `RESULT: PASS — 7 check group(s)`, exit 0 (matches the inherited expectation).
+  - Documentation state sync — IMPLEMENTED + VERIFIED + COMMITTED (this record's commit):
+    `tasks/CURRENT.md` (Active Task rewritten to the post-merge reality, 2 Status Board rows added,
+    CI-execution + T-011 rows refreshed, 3 Verified Facts entries, Next Actions re-sequenced),
+    `tasks/BACKLOG.md` (T-011 row: PR #3 open → MERGED, `main` = `6f35c05`, deploy still not
+    authorized), `docs/ARCHITECTURE.md` (stale "VERIFIED in the working tree, commit pending"
+    sentences + the Layer-1 CI row corrected). Zero changes under `src/`, `tests/`, `scripts/`,
+    `.github/`; no dependency, no workflow, no T-003, no T-011 code touched.
+  - Append-only integrity — VERIFIED per `AGENTS.md` §4.9 + `docs/DEVELOPMENT.md`: heading
+    structure of `docs/HANDOFF.md` listed before and after the insertion; the previous record
+    (`2026-09-01 08:41 UTC`) is intact and this one sits above it (newest first); `verify_records.sh`
+    passes (PROPOSALS anchors untouched); `git diff --check` clean; `verify.sh` = `PASS — 7 check group(s)`.
+  - Push + documentation PR — COMMITTED/PUSHED: fast-forward push of `arena/01a05c47-canyou`
+    (no force), then a documentation-only PR against `main` using `.github/pull_request_template.md`;
+    the CI run IDs for this PR are recorded in the PR description (they cannot exist in the commit
+    that opens it), and are the accepted evidence location per `AGENTS.md` §5.
+
+Not done / remaining:
+  - Merge of this PR — NOT AUTHORIZED to this agent. This record ends at MERGE AUTHORIZATION:
+    the owner reads the PR, confirms both checks green on the latest head SHA and that the branch is
+    up-to-date with `main`, then says merge or not. No merge, no squash, no branch deletion here.
+  - Security Gate — NOT STARTED (owner-held, next phase gate); Deploy / release tag (`T-005`) —
+    NOT AUTHORIZED. `MERGED ≠ DEPLOYED`.
+  - Governance staleness pass — outside this scope, still flagged: `docs/SECURITY.md` dependency
+    posture, `docs/OPERATIONS.md` CI section, `AGENTS.md` §7 ("no application code" — now false),
+    `README.md` status line, `CHANGELOG.md` slice entry.
+  - `T-003` branch protection — OPEN, owner action; with the current token
+    `GET /branches/main/protection` returns 403, so "up-to-date / mergeable" can only be evidenced
+    from PR state, not from the protection configuration.
+
+Decisions made this session:
+  - Read-only first, discrepancy reported before any write, per the owner's phase instruction; no
+    automatic repair of the missing reference was attempted.
+  - `feature/docs-state-sync` was NOT created (Arena session branches are fixed to
+    `arena/01a05c47-canyou`); the owner explicitly confirmed that deviation before the push.
+  - Re-authored from repository records only — no invented recovery, no fabricated SHA, and the lost
+    `51f4aeb` is recorded as LOST / EVIDENCE UNAVAILABLE with Original SHA preserved: NO.
+  - Kept `git fetch --unshallow` to object acquisition: refs, HEAD, and index untouched
+    (`origin/main` was already equal to the local `main`).
+
+Risks / open questions:
+  - Third recurrence of the same failure class (`241fb02f`, `3bef224`, now `51f4aeb`): a session that
+    commits locally but never pushes loses its work when the sandbox is destroyed. Candidate
+    governance fix — DOCUMENTED only, deliberately not implemented here: a check that fails a
+    handoff record whose `Head commit` SHA is unreachable from any remote ref. Owner decision needed.
+  - This sandbox clone arrives shallow and branched from the previous session's tip, not from
+    `main` — ancestry claims in a handoff cannot be trusted without `fetch --unshallow`.
+  - The documentation PR asserts nothing about product readiness; if it is not merged, `main` keeps
+    the stale claims this record documents, and the next agent will inherit the same discrepancy.
+
+Immediate next step:
+  - Owner: review the documentation PR (checks `Repository verification` +
+    `Shellcheck verification scripts` on the head SHA) and issue or withhold MERGE AUTHORIZATION.
+    On authorization the next gate is the Security Gate — no agent starts it, deploys, or tags
+    without a separate explicit instruction.
 
 ### 2026-09-01 08:41 UTC — T-011 re-implementation — handoff
 
