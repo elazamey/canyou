@@ -53,6 +53,85 @@ Immediate next step:
 
 ## Latest handoff records
 
+### 2026-09-01 09:32 UTC — docs state sync + release chain (post-merge) — handoff
+
+Agent:        Arena Agent (session-scoped; identity irrelevant to the contract)
+Branch:       `arena/01a05c47-canyou`
+Base commit:  `6f35c05ec560e79e0e3f523c0c5b14f11080289f` (`main`, verified identical to `origin/main`)
+Head commit:  the commit carrying this record — its parent is `6f35c05`
+
+Done (state + evidence):
+  - Inherited reference audited before any write — VERIFIED NEGATIVE: the handoff claimed
+    `feature/docs-state-sync` @ `51f4aeb0bf5c014bd05fa255c7a89c73fd4861cd` (parent `6f35c05`).
+    That branch and commit do not exist. Recovery search 7/7 sources, all negative — local object
+    DB (`git cat-file` → bad object), `git fsck --full --unreachable` (none), refs + reflog
+    (clone + `branch: Created from 1a1a878` only), `git ls-remote` incl. `refs/pull/*`, GitHub API
+    (`/commits/51f4aeb…` → HTTP 422), PR list (`gh pr list --state all` → #1/#2/#3, all merged),
+    filesystem (`/tmp/arena-workspace` empty, no bundles/patches, workspace grep → no match).
+    Owner decision this session: OPTION A — re-create the documentation commit from repo records.
+  - Baseline verified — PASS: session branch was at `1a1a878` (pre-T-011) with a clean tree;
+    `verify.sh` there = `PASS — 6 check group(s)` (no `verify_slice.sh` yet — that tree predates
+    the slice). `main` = `6f35c05` = merge of PR #3 (T-011 slice MERGED, 2026-09-01 09:02:01 UTC,
+    owner-authorized). Full evidence in `tasks/CURRENT.md` → Verified Facts.
+  - Branch aligned to the expected parent without rewriting history — VERIFIED:
+    `git fetch --unshallow origin` (the clone was shallow/grafted; objects only) then
+    `git merge --ff-only main` → HEAD `6f35c05`, zero commits created, no amend/reset/force-push;
+    `verify.sh` = `RESULT: PASS — 7 check group(s)`, exit 0 (matches the inherited expectation).
+  - Documentation state sync — IMPLEMENTED + VERIFIED + COMMITTED (this record's commit):
+    `tasks/CURRENT.md` (Active Task rewritten to the post-merge reality, 2 Status Board rows added,
+    CI-execution + T-011 rows refreshed, 3 Verified Facts entries, Next Actions re-sequenced),
+    `tasks/BACKLOG.md` (T-011 row: PR #3 open → MERGED, `main` = `6f35c05`, deploy still not
+    authorized), `docs/ARCHITECTURE.md` (stale "VERIFIED in the working tree, commit pending"
+    sentences + the Layer-1 CI row corrected). Zero changes under `src/`, `tests/`, `scripts/`,
+    `.github/`; no dependency, no workflow, no T-003, no T-011 code touched.
+  - Append-only integrity — VERIFIED per `AGENTS.md` §4.9 + `docs/DEVELOPMENT.md`: heading
+    structure of `docs/HANDOFF.md` listed before and after the insertion; the previous record
+    (`2026-09-01 08:41 UTC`) is intact and this one sits above it (newest first); `verify_records.sh`
+    passes (PROPOSALS anchors untouched); `git diff --check` clean; `verify.sh` = `PASS — 7 check group(s)`.
+  - Push + documentation PR — COMMITTED/PUSHED: fast-forward push of `arena/01a05c47-canyou`
+    (no force), then a documentation-only PR against `main` using `.github/pull_request_template.md`;
+    the CI run IDs for this PR are recorded in the PR description (they cannot exist in the commit
+    that opens it), and are the accepted evidence location per `AGENTS.md` §5.
+
+Not done / remaining:
+  - Merge of this PR — NOT AUTHORIZED to this agent. This record ends at MERGE AUTHORIZATION:
+    the owner reads the PR, confirms both checks green on the latest head SHA and that the branch is
+    up-to-date with `main`, then says merge or not. No merge, no squash, no branch deletion here.
+  - Security Gate — NOT STARTED (owner-held, next phase gate); Deploy / release tag (`T-005`) —
+    NOT AUTHORIZED. `MERGED ≠ DEPLOYED`.
+  - Governance staleness pass — outside this scope, still flagged: `docs/SECURITY.md` dependency
+    posture, `docs/OPERATIONS.md` CI section, `AGENTS.md` §7 ("no application code" — now false),
+    `README.md` status line, `CHANGELOG.md` slice entry.
+  - `T-003` branch protection — OPEN, owner action; with the current token
+    `GET /branches/main/protection` returns 403, so "up-to-date / mergeable" can only be evidenced
+    from PR state, not from the protection configuration.
+
+Decisions made this session:
+  - Read-only first, discrepancy reported before any write, per the owner's phase instruction; no
+    automatic repair of the missing reference was attempted.
+  - `feature/docs-state-sync` was NOT created (Arena session branches are fixed to
+    `arena/01a05c47-canyou`); the owner explicitly confirmed that deviation before the push.
+  - Re-authored from repository records only — no invented recovery, no fabricated SHA, and the lost
+    `51f4aeb` is recorded as LOST / EVIDENCE UNAVAILABLE with Original SHA preserved: NO.
+  - Kept `git fetch --unshallow` to object acquisition: refs, HEAD, and index untouched
+    (`origin/main` was already equal to the local `main`).
+
+Risks / open questions:
+  - Third recurrence of the same failure class (`241fb02f`, `3bef224`, now `51f4aeb`): a session that
+    commits locally but never pushes loses its work when the sandbox is destroyed. Candidate
+    governance fix — DOCUMENTED only, deliberately not implemented here: a check that fails a
+    handoff record whose `Head commit` SHA is unreachable from any remote ref. Owner decision needed.
+  - This sandbox clone arrives shallow and branched from the previous session's tip, not from
+    `main` — ancestry claims in a handoff cannot be trusted without `fetch --unshallow`.
+  - The documentation PR asserts nothing about product readiness; if it is not merged, `main` keeps
+    the stale claims this record documents, and the next agent will inherit the same discrepancy.
+
+Immediate next step:
+  - Owner: review the documentation PR (checks `Repository verification` +
+    `Shellcheck verification scripts` on the head SHA) and issue or withhold MERGE AUTHORIZATION.
+    On authorization the next gate is the Security Gate — no agent starts it, deploys, or tags
+    without a separate explicit instruction.
+
 ### 2026-09-01 08:41 UTC — T-011 re-implementation — handoff
 
 Agent:        Arena Agent (session-scoped; identity irrelevant to the contract)
