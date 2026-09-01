@@ -52,6 +52,72 @@ Immediate next step:
 5. Re-bound the task scope yourself (`AGENTS.md` §3.2) — do not inherit scope blindly.
 
 ## Latest handoff records
+### 2026-09-01 09:49 UTC — T-003 consistency fix (pre-merge) — handoff
+
+Agent:        Arena Agent (session-scoped; identity irrelevant to the contract)
+Branch:       `arena/01a05c47-canyou`
+Base commit:  `a8f92aec8ed3855972a18881ebe186af6191c295` (master-plan intake; PR #4 head at the time)
+Head commit:  the commit carrying this record (parent `a8f92ae`)
+
+Done (state + evidence):
+  - Owner-flagged contradiction removed — COMMITTED: `tasks/BACKLOG.md` `T-003` `OPEN` → `DONE`. The state was
+    verified by the agent, not inherited: `gh api repos/elazamey/canyou/branches/main` → `"protected": true`
+    (2026-09-01 09:46 UTC). Corroboration: `git log --first-parent main` → `6f35c05` ← `cef93df` ← `b3b7707` ←
+    `e0b7fcf` — `main` has only ever advanced through PR merge commits (supporting, not proving, the require-PR rule).
+  - Taxonomy separation written down so it cannot drift again — COMMITTED: `DONE` = the backlog item's work is
+    complete (`OPEN → IN PROGRESS → DONE`); `ACTIVE` = the protection remains in force on GitHub, a property of the
+    branch, not a state in `AGENTS.md` §2. `tasks/CURRENT.md` carries the matching `VERIFIED` board row that
+    `docs/OPERATIONS.md` requires when a backlog item closes, plus a Verified Facts entry with the commands.
+  - Evidence boundary respected — VERIFIED: `GET /branches/main/protection`, `/required_status_checks`,
+    `/required_pull_request_reviews`, `/enforce_admins` → `HTTP 403 Resource not accessible by integration` with the
+    agent token. So the individual rules (required checks list, strict up-to-date, admin enforcement, force-push
+    allowance) are recorded as `NOT VERIFIED (agent scope)` and `Q-11` was opened for them. No row claims them.
+  - Stale claims corrected across the state files — COMMITTED: Active Task gate posture (`T-003 = DONE / ACTIVE`),
+    `Q-8` and `Q-10` marked ANSWERED with the owner's rulings, `Q-11` opened, Next Actions re-sequenced to
+    `T-012`.
+  - Suite — VERIFIED: `bash scripts/verify/verify.sh` → `RESULT: PASS — 7 check group(s)`, exit 0;
+    `git diff --check` clean; scope audit: `tasks/BACKLOG.md` 2/2 and `tasks/CURRENT.md` this record's section only
+    (plus this append-only file) — no `src/`, `tests/`, `scripts/`, `.github/`, dependency, or roadmap change.
+
+Not done / remaining:
+  - `docs/ROADMAP.md` still contains one now-stale sentence the owner excluded from this change: the "Phase →
+    repository reality" table, Phase-1 row, `branch protection OPEN (T-003)`. It contradicts this fix by exactly one
+    line. Not edited (directive item 5), recorded here so the next agent does not inherit it as a mystery.
+  - Post-merge state lag: the PR #4 merge itself cannot be recorded inside PR #4, so `tasks/CURRENT.md` on `main`
+    will describe "merge pending" until the next documentation commit — expected home: the `T-012` PR.
+  - `T-012` Security Gate — NOT STARTED; opens on the owner's instruction with a deterministic harness.
+  - `T-023` (roadmap-presence check `A`, handoff-head-SHA reachability check `B`) — accepted as P1 governance
+    hardening, deliberately not now; both edit `scripts/verify/`.
+  - `T-005` — kept `OPEN`: the owner's ruling is that a satisfied precondition does not become `DONE` unless the
+    taxonomy says so, and it does not. No new state was invented.
+
+Decisions made this session:
+  - The `T-003` claim was re-verified against GitHub before being written (AGENTS.md §2), and the record states the
+    limit of that verification instead of upgrading it to "required checks enforced".
+  - Merge execution follows the owner's conditional YES (fix → green CI on the newest head → mergeable/up-to-date →
+    merge as a **merge commit**, no rewrite). The gate itself was not treated as self-granted: it runs only because
+    the owner wrote the YES and the conditions are evidenced in the PR.
+  - Two edits landed that the phase allowlist did not name, both disclosed: this handoff record (mandatory under
+    `AGENTS.md` §3.8 and `docs/HANDOFF.md` rules — a session that ends without one leaves state stale) and the
+    removal of a defect this agent shipped in `a8f92ae` (see Risks).
+
+Risks / open questions:
+  - Defect disclosed, not buried: the roadmap commit `a8f92ae` left a duplicate stale line in `tasks/CURRENT.md`
+    Next Actions (an old "5. Any agent starting fresh…" surviving a section rewrite). It was caught while rewriting
+    that section now, and removed — `verify.sh` could not see it because it is content, not structure. Lesson for
+    `T-023`: section rewrites deserve a leftover-line check, and a `grep`-level review of the file after any
+    block replacement is not optional.
+  - `protected: true` is a boolean, not a rule set. If the owner's settings actually differ from the task text
+    ("no direct pushes, no force pushes" not individually verified), the board row is honest about that; closing the
+    gap needs an admin token or a settings screenshot archived as evidence.
+  - A fix that removes one contradiction while leaving another (the ROADMAP line) is only acceptable because it is
+    recorded where the next agent will read it. If the ROADMAP line is not corrected in the `T-012` PR, the repo has
+    knowingly kept a stale claim — the exact failure mode this governance exists to prevent.
+
+Immediate next step:
+  - Owner: merge PR #4 (merge commit) on the green head SHA of this fix, then instruct the agent to open `T-012`
+    Security Gate; include in that PR the one-line `docs/ROADMAP.md` Phase-1 row correction and the post-merge state
+    update. Nothing in this record deploys, tags, or starts the Security Gate.
 ### 2026-09-01 09:41 UTC — system master plan intake (`docs/ROADMAP.md`) — handoff
 
 Agent:        Arena Agent (session-scoped; identity irrelevant to the contract)
