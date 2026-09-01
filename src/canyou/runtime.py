@@ -13,11 +13,17 @@ from __future__ import annotations
 import uuid
 from dataclasses import dataclass
 from datetime import datetime, timezone
-from typing import Any, Callable, Dict, Iterable, Mapping, Optional
+from typing import Any, Callable, Dict, Iterable, Iterator, Mapping, Optional, Tuple
 
 from .connectors.github import GitHubConnector, Transport, UrllibTransport
 from .evidence import EvidenceLog, TraceRecord, reference_of
-from .policy import Decision, PolicyDecision, PolicyGate, PolicyRule
+from .policy import (
+    PHASE1_PERMISSIONS,
+    Decision,
+    PolicyDecision,
+    PolicyGate,
+    PolicyRule,
+)
 from .registry import RiskLevel, ToolContract, ToolNotFound, ToolRegistry
 
 EXECUTED = "EXECUTED"
@@ -47,6 +53,39 @@ class ExecutionResult:
     error: Optional[str] = None
 
 
+class EvidenceView:
+    """Read-only window onto one run's evidence log (T-012 / SEC-6).
+
+    Under *Agent = Untrusted Actor* (constraints area 6), handing callers the
+    raw :class:`EvidenceLog` — whose one public mutator is ``append`` — lets
+    any caller **inject fabricated trace records** (e.g. a forged ALLOW). The
+    Runtime therefore never returns the log itself; it returns this view.
+    Records can be enumerated and serialized through it, never appended,
+    replaced, or deleted. In-process privacy is by the private-name
+    convention (same isolation mechanism as the executor bindings, R-4);
+    this is not a memory-safety boundary.
+    """
+
+    __slots__ = ("_log",)
+
+    def __init__(self, log: EvidenceLog) -> None:
+        self._log = log
+
+    def records(self) -> Tuple[TraceRecord, ...]:
+        """Immutable snapshot of all records, in append order (R-5)."""
+        return self._log.records()
+
+    def to_json_lines(self) -> str:
+        """Serialize as JSON-lines with sorted keys (deterministic)."""
+        return self._log.to_json_lines()
+
+    def __iter__(self) -> Iterator[TraceRecord]:
+        return iter(self._log.records())
+
+    def __len__(self) -> int:
+        return len(self._log)
+
+
 class Runtime:
     """Composes Registry + Policy Gate + privately bound executors + Evidence."""
 
@@ -61,6 +100,7 @@ class Runtime:
         self._registry = registry
         self._policy = policy
         self._evidence = evidence if evidence is not None else EvidenceLog()
+        self._evidence_view = EvidenceView(self._evidence)
         self._clock = clock
         self._execution_id_factory = execution_id_factory
         self._executors: Dict[str, Callable[[Mapping[str, Any]], Any]] = {}
@@ -144,9 +184,14 @@ class Runtime:
         )
 
     @property
-    def evidence(self) -> EvidenceLog:
-        """The run's append-only evidence log (R-5, directive section 8)."""
-        return self._evidence
+    def evidence(self) -> EvidenceView:
+        """Read-only view of the run's append-only evidence (R-5, §8, SEC-6).
+
+        The mutable log itself is never handed out: through this view no
+        caller can append, replace, or delete trace records; internally the
+        Runtime alone appends — exactly once per invocation attempt.
+        """
+        return self._evidence_view
 
 
 def build_github_runtime(
@@ -165,7 +210,14 @@ def build_github_runtime(
         transport if transport is not None else UrllibTransport()
     )
     registry = ToolRegistry()
-    runtime = Runtime(registry=registry, policy=PolicyGate(policy_rules))
+    runtime = Runtime(
+        registry=registry,
+        # SEC-2: the composition carries the Phase-1 permission ceiling, so
+        # any contract granted or declared outside PHASE1_PERMISSIONS is
+        # denied by the Gate with UNKNOWN_PERMISSION — the gate, not hope,
+        # bounds the slice's authority (least privilege, constraints area 6).
+        policy=PolicyGate(policy_rules, permission_ceiling=PHASE1_PERMISSIONS),
+    )
 
     def add_tool(contract: ToolContract, operation: str) -> None:
         runtime.register_contract(contract)
@@ -216,4 +268,16 @@ def build_github_runtime(
         ),
         "create_pull_request",
     )
+    # SEC-2 backstop: prove at composition time that every shipped contract
+    # stays inside the ceiling (a regression here fails loudly at build, not
+    # silently at call time). Run-time registrations after composition are
+    # still vetoed by the Gate's UNKNOWN_PERMISSION decision.
+    for tool_name in registry.tools():
+        shipped = registry.lookup(tool_name)
+        outside = sorted(set(shipped.permissions) - PHASE1_PERMISSIONS)
+        if outside:
+            raise ValueError(
+                f"shipped contract {tool_name} declares permission(s) "
+                f"outside the Phase-1 ceiling: {outside}"
+            )
     return runtime

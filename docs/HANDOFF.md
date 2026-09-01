@@ -52,6 +52,89 @@ Immediate next step:
 5. Re-bound the task scope yourself (`AGENTS.md` §3.2) — do not inherit scope blindly.
 
 ## Latest handoff records
+### 2026-09-01 12:20 UTC — T-012 Security Gate (re-implemented after session loss) — handoff
+
+Agent:        Arena Agent (session-scoped; identity irrelevant to the contract)
+Branch:       `arena/01a05cb7-canyou`
+Base commit:  `d38e014203b02de6ad1c385eefe49b9719c3a57e` (`main` — PR #4 merge, verified via `git ls-remote`)
+Head commit:  the commit carrying this record (parent `de6c06511112eec1d0d52aec8380053d499c82fe`)
+
+Done (state + evidence):
+  - Recovery search for the lost T-012 work — VERIFIED NEGATIVE, 7/7 sources (local object DB,
+    `git fsck --full --unreachable`, refs+reflog, `git ls-remote` incl. `refs/pull/*`, GitHub API
+    HTTP 422 for both SHAs, filesystem, PR list #1–#4 all MERGED). The first T-012 session's
+    `8e90088`/`c5d6059` died un-pushed with their sandbox (`GREEN LOCALLY` per the owner report);
+    resume files (`T012-RESUME.md`, `t012-security-pr-body.md`, `t012-remediation.patch`) lived
+    outside the repo and died with it. OPTION A per owner precedent (`241fb02f`, `3bef224`,
+    `51f4aeb`): RE-IMPLEMENTED FROM SPECIFICATION — Original SHA preserved: NO.
+  - Baseline re-verified before any change — `main` @ `d38e014` → `verify.sh` PASS 7 groups;
+    session branch moved from the stale `1a1a878` lineage onto `main` (`fetch --unshallow`,
+    objects only; zero content loss — `1a1a878` is already merged via PR #2).
+  - SEC-1..SEC-6 closed — COMMITTED `de6c065`: approval-requirement now fails closed
+    (APPROVAL_REQUIRED); PHASE1_PERMISSIONS ceiling {repo:read, repo:write, pr:create} wired
+    into the composed gate with UNKNOWN_PERMISSION (fixed reason precedence, plain gate
+    ceiling-agnostic); per-segment percent-encoding of owner/repo/base; transport never follows
+    redirects (_NoRedirectHandler) + wraps TimeoutError/connection-reset + treats blank tokens
+    as missing; malformed/non-JSON/object-shape 2xx bodies fail closed; `Runtime.evidence` now
+    exposes a read-only EvidenceView (forged-record append impossible through the public surface).
+    Files touched: `src/canyou/policy.py`, `runtime.py`, `connectors/github.py`
+    (+220/−23 across src). Untouched per the directive's scope list: `registry.py`,
+    `evidence.py`, both `__init__.py`, all T-011 test files, `scripts/verify/verify.sh`,
+    `docs/ROADMAP.md`, `.github/`, dependency files.
+  - Deterministic harness — VERIFIED: `tests/test_security_gate.py` (55 offline unittest tests in
+    ten axis-named classes) + `scripts/verify/verify_security.sh` (8th auto-discovered check
+    group; 6 PASS lines incl. negative control and axis coverage). Suite on this tree:
+    `verify.sh` → `RESULT: PASS — 8 check group(s)`; unittest `Ran 109 tests ... OK`; tamper
+    proofs (ceiling removal → 3 failures; no-redirect removal → 1 failure; axis erasure →
+    axis-coverage FAIL) each FAIL → restored byte-identical → PASS; `git diff --check` clean.
+  - State sync — COMMITTED (this commit): `tasks/CURRENT.md` (Active Task rewritten to the T-012
+    reality incl. PR #4 = MERGED, two Status Board rows, Verified Facts, Q-12 opened for the
+    «T-026 مؤجل» reference that has no backlog row, Next Actions re-sequenced), `tasks/BACKLOG.md`
+    (T-012 OPEN → IN PROGRESS with evidence pointers), this record. Append-only integrity:
+    `grep -n '^### ' docs/HANDOFF.md` confirms prior records intact below this one.
+
+Not done / remaining:
+  - Merge of the T-012 PR — NOT AUTHORIZED to the agent; owner-held merge-commit decision on a
+    green head SHA. Push + PR happen in this session; the PR number and CI run IDs live in the
+    PR description (they cannot exist inside the commit that opens the PR — accepted pattern).
+  - `shellcheck` — NOT VERIFIED in this sandbox (binary absent, install attempt failed offline);
+    `bash -n` gate PASS + sibling idiom; external evidence = CI `Shellcheck verification scripts`
+    job on the PR head (run IDs in the PR description).
+  - The «First Run» friction is intended, not an outage: `github.issue.create` →
+    UNKNOWN_PERMISSION until a slice adds operation + contract + ceiling entry + tests.
+  - Carried staleness (maintainer-owned, NOT touched): `docs/SECURITY.md` dependency posture,
+    `docs/OPERATIONS.md` CI section + "Current checks" list (now missing three scripts),
+    `AGENTS.md` §7, `README.md` status line, `CHANGELOG.md` slice entry, and the one stale
+    `docs/ROADMAP.md` Phase-1 row (directive excluded ROADMAP from scope — recorded, not edited).
+  - `T-013`/`T-014`/`T-005`/`T-023`: NOT STARTED, owner-gated. Deploy: LOCKED. Production:
+    NOT READY.
+
+Decisions made this session:
+  - Ceiling enforced at composition (the GitHub gate) rather than globally: the plain PolicyGate
+    must keep accepting third-party test contracts (54 pre-existing tests stay untouched and
+    green — the directive's scope rule), and reason precedence keeps DESTRUCTIVE_BLOCKED ahead
+    of UNKNOWN_PERMISSION so the destructive veto wording is preserved.
+  - Evidence integrity fix placed in `runtime.py` (EvidenceView) because `evidence.py` was on the
+    directive's untouched list; in-process isolation remains private-name convention (R-4 seam),
+    disclosed in the class docstring as not-a-memory-safety-boundary.
+  - Two commits: remediation first (suite green at it), state docs second — verification passes
+    at every commit (AGENTS.md §3.6).
+  - Did NOT chase the lost session's reported counts (9 files / +1954/−18 / 144 tests / negative
+    queues 10/6/27): those describe an implementation whose evidence no longer exists; this PR
+    reports only what was measured live on this tree (109 = 54 + 55; +finished file counts).
+
+Risks / open questions:
+  - Q-11 stands (protection granularity is 403/admin-only; `protected: true` re-confirmed).
+  - Q-12: «T-026» is referenced by the owner directive but has no backlog row — repository wins
+    until the owner adds one.
+  - A gate that proves denial (`Transport calls = 0`, `TraceRecord = 1` on rejection) is only as
+    strong as its tamper tests — both live in-tree now; extend them with any future operation.
+
+Immediate next step:
+  - Owner: review the T-012 PR; on green CI for the head SHA, say merge or not (merge commit, no
+    squash, no branch deletion). Receiving agent: re-run `bash scripts/verify/verify.sh` on
+    `main` after the merge and expect `PASS — 8 check group(s)`; then open T-013 only on a
+    separate owner instruction. Nothing here deploys, tags, or merges anything.
 ### 2026-09-01 09:49 UTC — T-003 consistency fix (pre-merge) — handoff
 
 Agent:        Arena Agent (session-scoped; identity irrelevant to the contract)

@@ -10,6 +10,19 @@ Fail closed: a missing token, an unknown operation, a missing payload
 field, or a non-2xx provider response raises. The connector never guesses,
 never retries, and never performs an authorization decision of its own
 (R-3) — authority lives exclusively in the Policy Gate.
+
+Security-Gate hardening (T-012):
+
+- SEC-3 (connector isolation): every payload value interpolated into a
+  provider URL path is percent-encoded as a single segment, so a hostile
+  ``owner``/``repo``/``base`` value cannot rewrite the request route.
+- SEC-4 (network failure / timeout / secrets): redirects are never
+  followed — re-sending ``Authorization`` to a redirect target could hand
+  the token to another origin; timeout and connection-reset errors
+  surface as :class:`GitHubConnectorError` like every other transport
+  failure; blank/whitespace tokens are treated as missing.
+- SEC-5 (error handling): a non-JSON or malformed 2xx body raises
+  :class:`GitHubConnectorError` instead of leaking a raw decode error.
 """
 
 from __future__ import annotations
@@ -28,6 +41,30 @@ from . import Connector
 
 _API_VERSION = "2022-11-28"
 _USER_AGENT = "canyou-thin-slice"
+
+
+def _segment(value: Any) -> str:
+    """Percent-encode one URL path segment (SEC-3).
+
+    ``safe=""`` encodes ``/``, ``?``, ``#``, ``%``, whitespace, etc., so a
+    payload value can never escape its segment and rewrite the route.
+    """
+    return urllib.parse.quote(str(value), safe="")
+
+
+class _NoRedirectHandler(urllib.request.HTTPRedirectHandler):
+    """Refuse every redirect (SEC-4).
+
+    The default handler re-sends request headers — including
+    ``Authorization: Bearer <token>`` — to the redirect target, which may be
+    a different origin. Returning ``None`` turns any 3xx into an
+    :class:`urllib.error.HTTPError`, which the transport wraps and refuses.
+    """
+
+    def redirect_request(
+        self, req: Any, fp: Any, code: int, msg: str, headers: Any, newurl: str
+    ) -> None:
+        return None
 
 
 class GitHubConnectorError(Exception):
@@ -94,10 +131,13 @@ class UrllibTransport(Transport):
         self._api_base = api_base.rstrip("/")
         self._token_env_var = token_env_var
         self._timeout_seconds = timeout_seconds
+        # SEC-4: a fixed opener without redirect following, so the bearer
+        # token can never be re-sent to a redirect target off origin.
+        self._opener = urllib.request.build_opener(_NoRedirectHandler())
 
     def request(self, request: GitHubRequest) -> GitHubResponse:
         token = os.environ.get(self._token_env_var)
-        if not token:
+        if not token or not token.strip():  # SEC-4: blank is missing
             raise GitHubTokenMissing(self._token_env_var)
         url = self._api_base + request.path
         if request.query:
@@ -116,7 +156,7 @@ class UrllibTransport(Transport):
             url, data=data, headers=headers, method=request.method
         )
         try:
-            with urllib.request.urlopen(
+            with self._opener.open(
                 http_request, timeout=self._timeout_seconds
             ) as response:
                 return GitHubResponse(
@@ -129,6 +169,13 @@ class UrllibTransport(Transport):
             raise GitHubConnectorError(
                 status=0, detail=f"transport failure: {exc.reason}"
             ) from None
+        except OSError as exc:
+            # SEC-4: timeout / connection-reset class (TimeoutError,
+            # ConnectionError — URLError is an OSError subclass handled
+            # above). One wrapped error type for every transport failure;
+            # the OS-level message carries no header or credential data.
+            detail = f"transport failure ({type(exc).__name__}): {exc}"
+            raise GitHubConnectorError(status=0, detail=detail[:240]) from None
 
 
 class GitHubConnector(Connector):
@@ -161,15 +208,37 @@ class GitHubConnector(Connector):
 
     # -- transport plumbing --------------------------------------------------
 
+    @staticmethod
+    def _parse_body(response: GitHubResponse) -> Dict[str, Any]:
+        """Decode the provider JSON body; fail closed on malformed (SEC-5).
+
+        The provider's raw text is deliberately not echoed into the raised
+        error (provider-controlled text has no place inside an error agents
+        may render); the status code identifies the failed round trip.
+        """
+        if not response.body.strip():
+            return {}
+        try:
+            parsed = json.loads(response.body)
+        except json.JSONDecodeError:
+            raise GitHubConnectorError(
+                status=response.status,
+                detail="provider returned a non-JSON or malformed body; refusing to guess",
+            ) from None
+        if not isinstance(parsed, dict):
+            raise GitHubConnectorError(
+                status=response.status,
+                detail="provider returned valid JSON but not an object; refusing to guess",
+            )
+        return parsed
+
     def _request(self, request: GitHubRequest) -> Dict[str, Any]:
         response = self._transport.request(request)
         if not 200 <= response.status < 300:
             raise GitHubConnectorError(
                 status=response.status, detail=response.body[:200]
             )
-        if not response.body.strip():
-            return {}
-        return json.loads(response.body)  # the provider contract is JSON
+        return self._parse_body(response)  # the provider contract is JSON
 
     def _request_optional(self, request: GitHubRequest) -> Optional[Dict[str, Any]]:
         """Like ``_request`` but tolerates 404 (returns None) — for lookups
@@ -181,7 +250,7 @@ class GitHubConnector(Connector):
             raise GitHubConnectorError(
                 status=response.status, detail=response.body[:200]
             )
-        return json.loads(response.body) if response.body.strip() else {}
+        return self._parse_body(response)
 
     @staticmethod
     def _require(payload: Dict[str, Any], *keys: str) -> None:
@@ -197,8 +266,8 @@ class GitHubConnector(Connector):
         self._require(payload, "owner", "repo", "path")
         query = {"ref": payload["ref"]} if payload.get("ref") else None
         path = "/repos/{0}/{1}/contents/{2}".format(
-            payload["owner"],
-            payload["repo"],
+            _segment(payload["owner"]),
+            _segment(payload["repo"]),
             urllib.parse.quote(payload["path"], safe="/"),
         )
         return self._request(GitHubRequest(method="GET", path=path, query=query))
@@ -209,7 +278,9 @@ class GitHubConnector(Connector):
             GitHubRequest(
                 method="GET",
                 path="/repos/{0}/{1}/git/ref/heads/{2}".format(
-                    payload["owner"], payload["repo"], payload["base"]
+                    _segment(payload["owner"]),
+                    _segment(payload["repo"]),
+                    _segment(payload["base"]),
                 ),
             )
         )
@@ -218,7 +289,7 @@ class GitHubConnector(Connector):
             GitHubRequest(
                 method="POST",
                 path="/repos/{0}/{1}/git/refs".format(
-                    payload["owner"], payload["repo"]
+                    _segment(payload["owner"]), _segment(payload["repo"])
                 ),
                 body={
                     "ref": "refs/heads/{0}".format(payload["branch"]),
@@ -231,8 +302,8 @@ class GitHubConnector(Connector):
     def _commit_file(self, payload: Dict[str, Any]) -> Dict[str, Any]:
         self._require(payload, "owner", "repo", "path", "branch", "message", "content")
         contents_path = "/repos/{0}/{1}/contents/{2}".format(
-            payload["owner"],
-            payload["repo"],
+            _segment(payload["owner"]),
+            _segment(payload["repo"]),
             urllib.parse.quote(payload["path"], safe="/"),
         )
         existing = self._request_optional(
@@ -263,7 +334,9 @@ class GitHubConnector(Connector):
         return self._request(
             GitHubRequest(
                 method="POST",
-                path="/repos/{0}/{1}/pulls".format(payload["owner"], payload["repo"]),
+                path="/repos/{0}/{1}/pulls".format(
+                    _segment(payload["owner"]), _segment(payload["repo"])
+                ),
                 body=body,
             )
         )
